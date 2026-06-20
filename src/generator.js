@@ -1,7 +1,7 @@
 export const SCENARIO = Object.freeze({
-  place: "Forbidden Moon",
+  place: "Rose Canyon Highlands",
   problem: "Weather Is Alive",
-  goal: "Find the Lost Entrance",
+  goal: "Find the Signal",
   dominantLandmark: "giant fossil spine",
   secondaryCuriosities: ["blue slime basin", "ring of watching stones"],
   rule: "the storm follows whoever carries the antenna",

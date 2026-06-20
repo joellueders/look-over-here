@@ -49,7 +49,7 @@ objective.innerHTML = `
 `;
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(68, window.innerWidth / window.innerHeight, 0.1, 58);
+const camera = new THREE.PerspectiveCamera(68, window.innerWidth / window.innerHeight, 0.1, 90);
 const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "high-performance" });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -58,7 +58,7 @@ app.appendChild(renderer.domElement);
 
 const world = createWorld(scene);
 const player = createPlayer(camera, renderer.domElement, world.walkableSurfaces, world.colliders, () => {
-  ui.showMessage("The moon spits you back out.", 4);
+  ui.showMessage("The canyon wind sets you back on the trail.", 4);
 });
 scene.add(player.controls.object);
 const storm = createStorm(scene);
@@ -105,9 +105,9 @@ function complete() {
   if (state.complete) return;
   state.complete = true;
   status.textContent = "Lost entrance: Found";
-  objective.innerHTML = `<strong>Forbidden Moon complete</strong><br />The way below is open.`;
+  objective.innerHTML = `<strong>Rose Canyon Highlands complete</strong><br />The way below is open.`;
   ui.setPrompt("");
-  ui.showMessage("ENTRANCE FOUND: The Forbidden Moon opens below you.", 6);
+  ui.showMessage("ENTRANCE FOUND: Rose Canyon opens below the spine.", 6);
   player.controls.unlock();
   completeScreen.classList.add("visible");
 }
@@ -147,7 +147,7 @@ window.addEventListener("resize", () => {
 
 renderer.domElement.addEventListener("webglcontextlost", (event) => {
   event.preventDefault();
-  ui.showMessage("The moon went dark. Reload to restore the signal.", 30);
+  ui.showMessage("The canyon went dark. Reload to restore the signal.", 30);
 });
 
 function updateMachineTrigger() {
@@ -186,4 +186,4 @@ renderer.setAnimationLoop(() => {
   renderer.render(scene, camera);
 });
 
-ui.showMessage("SCAN: A fossil spine breaks the fog ahead.", 5);
+ui.showMessage("SCAN: A rose trail climbs toward the fossil spine.", 5);

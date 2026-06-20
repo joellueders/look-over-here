@@ -12,16 +12,17 @@ import {
 const material = (color, emissive = 0x000000) =>
   new THREE.MeshStandardMaterial({ color, emissive, flatShading: true, roughness: 0.95 });
 
-function createCraterGround() {
-  const geometry = new THREE.CircleGeometry(42, 14);
+function createCanyonGround() {
+  const geometry = new THREE.PlaneGeometry(70, 72, 8, 10);
   const positions = geometry.attributes.position;
 
-  for (let i = 1; i < positions.count; i += 1) {
+  for (let i = 0; i < positions.count; i += 1) {
     const x = positions.getX(i);
     const y = positions.getY(i);
-    const distance = Math.hypot(x, y);
     const noise = Math.sin(x * 0.42) * 0.32 + Math.cos(y * 0.37) * 0.26;
-    positions.setZ(i, noise + Math.max(0, distance - 29) * 0.24);
+    const canyonShoulder = Math.max(0, Math.abs(x) - 17) * 0.16;
+    const landingRise = Math.max(0, y - 20) * 0.08;
+    positions.setZ(i, noise + canyonShoulder + landingRise);
   }
 
   geometry.computeVertexNormals();
@@ -29,19 +30,48 @@ function createCraterGround() {
   return new THREE.Mesh(geometry, material(0x6a3b68));
 }
 
-function createCraterRim(scene) {
-  const rockMaterials = [material(0x43254f), material(0x56305d), material(0x34203f)];
+function createCanyonWalls(scene) {
+  const rockMaterials = [material(0x8e526f), material(0xa96277), material(0x714365)];
+  const stratumMaterials = [material(0xc7797a), material(0x92516e), material(0xb96a78)];
 
-  for (let i = 0; i < 30; i += 1) {
-    const angle = (i / 30) * Math.PI * 2;
-    const radius = 36 + Math.sin(i * 4.2) * 2.5;
-    const rock = new THREE.Mesh(
-      new THREE.ConeGeometry(2.8 + (i % 3), 8 + (i % 5), 5),
-      rockMaterials[i % rockMaterials.length],
-    );
-    rock.position.set(Math.cos(angle) * radius, 2.5, Math.sin(angle) * radius);
-    rock.rotation.set(Math.sin(i) * 0.15, angle, Math.cos(i * 0.7) * 0.13);
-    scene.add(rock);
+  for (const side of [-1, 1]) {
+    for (let i = 0; i < 7; i += 1) {
+      const width = 7.5 + (i % 3) * 1.2;
+      const height = 7 + (i % 3) * 2.1;
+      const depthScale = 0.72 + (i % 2) * 0.16;
+      const formation = new THREE.Group();
+      const lower = new THREE.Mesh(
+        new THREE.CylinderGeometry(width * 0.42, width * 0.58, height, 6),
+        rockMaterials[(i + (side > 0 ? 1 : 0)) % rockMaterials.length],
+      );
+      lower.scale.z = depthScale;
+      lower.position.y = height * 0.5;
+      formation.add(lower);
+
+      const cap = new THREE.Mesh(
+        new THREE.CylinderGeometry(width * 0.3, width * 0.45, height * 0.52, 6),
+        rockMaterials[(i + 1) % rockMaterials.length],
+      );
+      cap.scale.z = depthScale * 0.82;
+      cap.position.set(side * 0.45, height * 1.04, (i % 2 ? -1 : 1) * 0.45);
+      cap.rotation.y = 0.22;
+      formation.add(cap);
+
+      for (let band = 0; band < 2; band += 1) {
+        const stratum = new THREE.Mesh(
+          new THREE.CylinderGeometry(width * (0.48 - band * 0.06), width * 0.5, 0.42, 6),
+          stratumMaterials[(i + band) % stratumMaterials.length],
+        );
+        stratum.scale.z = depthScale * (0.92 - band * 0.08);
+        stratum.position.y = 2.2 + band * (height * 0.45);
+        stratum.rotation.y = band * 0.17;
+        formation.add(stratum);
+      }
+
+      formation.position.set(side * (24.5 + (i % 2) * 2.2), -0.4, 21 - i * 8.7);
+      formation.rotation.set(0, side * (0.1 + i * 0.035), side * (i % 2 ? 0.035 : -0.025));
+      scene.add(formation);
+    }
   }
 }
 
@@ -62,23 +92,24 @@ function createFloatingRocks(scene) {
 
 function createMoon(scene) {
   const moon = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(9, 0),
+    new THREE.IcosahedronGeometry(5.5, 0),
     new THREE.MeshBasicMaterial({ color: 0xffd37f, fog: false }),
   );
-  moon.position.set(-18, 22, -35);
+  moon.position.set(-26, 25, -48);
   scene.add(moon);
 }
 
 function createDistantLandmarks(scene) {
   const farSilhouette = material(0x59345f);
   const middleSilhouette = material(0x713f72);
-  const cliffFace = material(0x8e526f);
+  const cliffFace = material(0xa96277);
   const fadedBone = material(0xd7a58f);
 
   [
-    [-32, -32, 9, 17],
-    [29, -35, 11, 21],
-    [39, 3, 8, 16],
+    [-37, -46, 11, 21],
+    [30, -52, 14, 27],
+    [43, -24, 10, 20],
+    [-45, -18, 9, 18],
   ].forEach(([x, z, width, height], index) => {
     const mesa = new THREE.Mesh(
       new THREE.CylinderGeometry(width * 0.62, width, height, 5),
@@ -98,13 +129,13 @@ function createDistantLandmarks(scene) {
   });
 
   [
-    [-34, -28, 8, 14],
-    [-24, -35, 10, 18],
-    [-12, -39, 9, 15],
-    [1, -41, 12, 19],
-    [15, -39, 9, 14],
-    [25, -34, 10, 17],
-    [34, -27, 8, 13],
+    [-41, -43, 10, 18],
+    [-28, -50, 12, 23],
+    [-13, -57, 11, 20],
+    [3, -60, 15, 26],
+    [20, -56, 11, 19],
+    [34, -48, 13, 22],
+    [45, -38, 10, 17],
   ].forEach(([x, z, radius, height], index) => {
     const ridge = new THREE.Mesh(
       new THREE.ConeGeometry(radius, height, 5),
@@ -117,15 +148,19 @@ function createDistantLandmarks(scene) {
   });
 
   for (const side of [-1, 1]) {
-    const cliff = new THREE.Mesh(new THREE.BoxGeometry(13, 9, 4), cliffFace);
-    cliff.position.set(side * 31, 2.4, 15);
+    const cliff = new THREE.Mesh(
+      new THREE.CylinderGeometry(6.2, 9.4, 12, 6),
+      cliffFace,
+    );
+    cliff.position.set(side * 35, 4.4, 8);
+    cliff.scale.z = 0.52;
     cliff.rotation.set(0, side * 0.18, side * 0.06);
     scene.add(cliff);
   }
 
-  for (const x of [-29, -23, 23]) {
+  for (const x of [-31, 25]) {
     const arch = new THREE.Mesh(new THREE.TorusGeometry(4.4, 0.55, 5, 8, Math.PI), fadedBone);
-    arch.position.set(x, 4.2, -30 + Math.abs(x) * 0.16);
+    arch.position.set(x, 5.2, -39 + Math.abs(x) * 0.12);
     arch.rotation.y = Math.PI / 2;
     scene.add(arch);
   }
@@ -149,36 +184,86 @@ function createDriftingSporeCluster(scene) {
     cluster.add(spore);
   }
 
-  cluster.position.set(-8, 6.4, -9);
+  cluster.position.set(10.5, 9.4, -28);
   cluster.userData.curiosityOrigin = cluster.position.clone();
   scene.add(cluster);
 }
 
+function createTrail(scene) {
+  const trailMaterials = [material(0xc47a75), material(0xb96b70), material(0xd08a7b)];
+  const trailSurfaces = [
+    [-3.5, 0.18, 10.5, 5.8, 4.4, -0.12, 0.025],
+    [-7.4, 0.34, 6.4, 6.5, 4.1, 0.18, -0.02],
+    [-10.4, 0.5, 1.7, 6.1, 3.9, -0.16, 0.03],
+    [-7.4, 0.66, -3.1, 6.7, 4, 0.16, -0.025],
+    [-10.9, 0.82, -8.1, 6.5, 3.8, -0.17, 0.02],
+    [-8.4, 0.98, -13, 6.4, 3.7, 0.16, -0.025],
+    [-11.1, 1.14, -17.5, 5.9, 3.5, -0.12, 0.02],
+  ].map(([x, y, z, width, depth, rotation, tilt], index) => {
+    const shelf = new THREE.Mesh(
+      new THREE.CylinderGeometry(width * 0.44, width * 0.52, 0.62, 7),
+      trailMaterials[index % trailMaterials.length],
+    );
+    shelf.scale.z = depth / width;
+    shelf.position.set(x, y, z);
+    shelf.rotation.set(tilt, rotation, tilt * 0.45);
+    shelf.userData.walkableSurface = true;
+    scene.add(shelf);
+    return shelf;
+  });
+
+  return trailSurfaces;
+}
+
 function createVistaPerch(scene) {
-  const perch = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.65, 3.2), material(0x754879));
-  perch.position.set(12.3, 7.7, -25.8);
-  perch.rotation.y = -0.18;
+  const perch = new THREE.Mesh(
+    new THREE.CylinderGeometry(3.4, 4.15, 1.05, 7),
+    material(0xc77a75),
+  );
+  perch.position.set(12.1, 7.4, -25.6);
+  perch.scale.z = 0.78;
+  perch.rotation.set(0.025, -0.18, -0.025);
   perch.userData.walkableSurface = true;
   scene.add(perch);
+
+  const ridge = new THREE.Mesh(
+    new THREE.CylinderGeometry(4.2, 5.8, 6.5, 6),
+    material(0x8e526f),
+  );
+  ridge.position.set(17.3, 3, -28.2);
+  ridge.scale.z = 0.72;
+  ridge.rotation.set(0, 0.2, -0.08);
+  scene.add(ridge);
+
+  const rim = new THREE.Mesh(
+    new THREE.CylinderGeometry(4.5, 4.7, 0.48, 6),
+    material(0xd08a7b),
+  );
+  rim.position.set(16.9, 6.25, -28);
+  rim.scale.z = 0.7;
+  rim.rotation.y = 0.2;
+  scene.add(rim);
+
   return perch;
 }
 
 export function createWorld(scene) {
   scene.background = new THREE.Color(0xd887b5);
-  scene.fog = new THREE.Fog(0xd887b5, 11, 52);
+  scene.fog = new THREE.Fog(0xd887b5, 18, 78);
 
   scene.add(new THREE.HemisphereLight(0xffd3df, 0x362046, 1.7));
   const moonLight = new THREE.DirectionalLight(0xffe29a, 2.15);
   moonLight.position.set(-12, 28, 10);
   scene.add(moonLight);
 
-  const ground = createCraterGround();
+  const ground = createCanyonGround();
   scene.add(ground);
-  createCraterRim(scene);
+  createCanyonWalls(scene);
   createFloatingRocks(scene);
   createMoon(scene);
   createDistantLandmarks(scene);
   createDriftingSporeCluster(scene);
+  const trailSurfaces = createTrail(scene);
   const vistaPerch = createVistaPerch(scene);
 
   const objects = {
@@ -219,7 +304,12 @@ export function createWorld(scene) {
       return { x: 17 + Math.cos(angle) * 4, z: -10 + Math.sin(angle) * 4, radius: 0.85 };
     }),
   ];
-  const walkableSurfaces = [ground, vistaPerch, ...objects.fossil.userData.walkableSurfaces];
+  const walkableSurfaces = [
+    ground,
+    ...trailSurfaces,
+    vistaPerch,
+    ...objects.fossil.userData.walkableSurfaces,
+  ];
 
   return { ...objects, ground, colliders, walkableSurfaces };
 }

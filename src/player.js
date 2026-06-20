@@ -16,7 +16,7 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
   const controls = new PointerLockControls(camera, domElement);
   const keys = new Set();
   const velocity = new THREE.Vector3();
-  const spawn = new THREE.Vector3(0, EYE_HEIGHT, 15);
+  const spawn = new THREE.Vector3(1, EYE_HEIGHT, 18);
   const groundRaycaster = new THREE.Raycaster();
   const groundRayOrigin = new THREE.Vector3();
   const down = new THREE.Vector3(0, -1, 0);
@@ -26,7 +26,7 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
 
   camera.position.copy(spawn);
   camera.rotation.order = "YXZ";
-  camera.lookAt(0, 3.5, -24);
+  camera.lookAt(-5.5, 4.8, -24);
 
   function jump() {
     if (!controls.isLocked) return;

@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#d793a8" />
+    <title>Look Over Here — Forbidden Moon</title>
+    <style>
+      :root {
+        font-family: "Courier New", monospace;
+        color: #fff4b3;
+        background: #d793a8;
+        font-synthesis: none;
+      }
+
+      * { box-sizing: border-box; }
+      html, body, #app { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+      canvas { display: block; image-rendering: pixelated; }
+
+      .panel {
+        background: rgba(24, 18, 35, 0.82);
+        border: 2px solid #fff4b3;
+        box-shadow: 5px 5px 0 rgba(32, 18, 45, 0.55);
+        padding: 10px 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      #objective {
+        position: fixed;
+        top: 18px;
+        left: 18px;
+        max-width: 330px;
+        pointer-events: none;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      #objective strong { color: #8ff7ff; }
+
+      #status {
+        position: fixed;
+        top: 18px;
+        right: 18px;
+        pointer-events: none;
+        color: #ff8bd5;
+        font-size: 12px;
+      }
+
+      #message {
+        position: fixed;
+        left: 50%;
+        bottom: 72px;
+        width: min(620px, calc(100% - 36px));
+        transform: translateX(-50%);
+        text-align: center;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 150ms linear;
+        line-height: 1.4;
+      }
+
+      #message.visible { opacity: 1; }
+
+      #prompt {
+        position: fixed;
+        left: 50%;
+        bottom: 22px;
+        transform: translateX(-50%);
+        color: white;
+        text-shadow: 2px 2px #21172e;
+        pointer-events: none;
+        white-space: nowrap;
+      }
+
+      #crosshair {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: 10px;
+        height: 10px;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
+
+      #crosshair::before,
+      #crosshair::after {
+        content: "";
+        position: absolute;
+        background: #fff4b3;
+        box-shadow: 1px 1px #21172e;
+      }
+
+      #crosshair::before { left: 4px; width: 2px; height: 10px; }
+      #crosshair::after { top: 4px; width: 10px; height: 2px; }
+
+      #start,
+      #complete {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: rgba(26, 16, 36, 0.76);
+        text-align: center;
+      }
+
+      #start .panel,
+      #complete .panel {
+        width: min(560px, 100%);
+        padding: 28px;
+      }
+
+      h1 { margin: 0 0 4px; font-size: clamp(28px, 7vw, 58px); line-height: 0.95; }
+      h2 { color: #8ff7ff; }
+      .build { margin-bottom: 22px; color: #ff8bd5; font-size: 12px; }
+      .rules { margin: 18px 0; color: white; line-height: 1.6; }
+      .controls { font-size: 13px; line-height: 1.65; }
+
+      button {
+        margin-top: 14px;
+        border: 2px solid #24162e;
+        background: #fff4b3;
+        color: #24162e;
+        padding: 11px 18px;
+        font: bold 15px "Courier New", monospace;
+        text-transform: uppercase;
+        cursor: pointer;
+        box-shadow: 4px 4px 0 #ff5ba7;
+      }
+
+      button:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #ff5ba7; }
+      #complete { display: none; background: rgba(10, 9, 18, 0.88); }
+      #complete.visible { display: grid; }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="objective" class="panel"></div>
+    <div id="status" class="panel">Hands empty</div>
+    <div id="message" class="panel"></div>
+    <div id="prompt"></div>
+    <div id="crosshair"></div>
+
+    <div id="start">
+      <div class="panel">
+        <h1>Look Over Here</h1>
+        <div class="build">v0.1.0 · FORBIDDEN MOON</div>
+        <div class="rules">
+          Forbidden Moon<br />
+          Weather Is Alive<br />
+          Find the Lost Entrance
+        </div>
+        <div class="controls">
+          WASD move · Mouse look · Space jump<br />
+          E interact · F scan · Esc release mouse
+        </div>
+        <button id="enter">Enter the crater</button>
+      </div>
+    </div>
+
+    <div id="complete">
+      <div class="panel">
+        <h2>Entrance Found</h2>
+        <p>The storm remembered the machine.</p>
+        <p>You found the way below the Forbidden Moon.</p>
+        <button id="restart">Walk it again</button>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -49,7 +49,7 @@ objective.innerHTML = `
 `;
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(68, window.innerWidth / window.innerHeight, 0.1, 90);
+const camera = new THREE.PerspectiveCamera(68, window.innerWidth / window.innerHeight, 0.1, 180);
 const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "high-performance" });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -64,15 +64,15 @@ scene.add(player.controls.object);
 const storm = createStorm(scene);
 const clock = new THREE.Clock();
 const carriedAnchor = new THREE.Group();
-carriedAnchor.position.set(0.72, -0.7, -1.2);
-carriedAnchor.rotation.set(-0.2, -0.5, 0.7);
+carriedAnchor.position.set(0.62, -0.68, -1.65);
+carriedAnchor.rotation.set(-0.16, -0.38, 0.58);
 camera.add(carriedAnchor);
 
 function pickUpAntenna() {
   state.carryingAntenna = true;
   world.antenna.removeFromParent();
   world.antenna.position.set(0, 0, 0);
-  world.antenna.scale.setScalar(0.55);
+  world.antenna.scale.setScalar(0.32);
   carriedAnchor.add(world.antenna);
   status.textContent = "Carrying: Broken Antenna";
   objective.innerHTML = `<strong>Bring the antenna to the dead machine</strong><br />The weather has noticed you.`;
@@ -97,8 +97,8 @@ function revealExit() {
   });
   storm.strike(world.machine.position);
   status.textContent = "Stormbound machine: Awake";
-  objective.innerHTML = `<strong>Enter beneath the fossil spine</strong><br />The lost entrance is open.`;
-  ui.showMessage("LIGHTNING STRIKE: The dead machine wakes. Stone moves beneath the fossil.", 6);
+  objective.innerHTML = `<strong>Climb beyond the weather machine</strong><br />A hidden entrance is glowing above the lavender ridge.`;
+  ui.showMessage("LIGHTNING STRIKE: The dead machine wakes. A high mountain door answers.", 6);
 }
 
 function complete() {
@@ -107,7 +107,7 @@ function complete() {
   status.textContent = "Lost entrance: Found";
   objective.innerHTML = `<strong>Rose Canyon Highlands complete</strong><br />The way below is open.`;
   ui.setPrompt("");
-  ui.showMessage("ENTRANCE FOUND: Rose Canyon opens below the spine.", 6);
+  ui.showMessage("ENTRANCE FOUND: A hidden way opens inside the mountain.", 6);
   player.controls.unlock();
   completeScreen.classList.add("visible");
 }
@@ -119,7 +119,7 @@ function unlockDoubleJump() {
   status.textContent = state.carryingAntenna
     ? "Carrying: Broken Antenna · Boots: Remembering"
     : "Boots: Remembering";
-  world.spineSignal.scale.setScalar(1.35);
+  world.trailSignal.scale.setScalar(1.35);
   ui.showMessage("Your boots remember a second jump.", 6);
 }
 
@@ -161,7 +161,13 @@ function updateExitTrigger() {
   const trigger = world.exit.userData.completionTrigger;
   const offsetX = Math.abs(camera.position.x - world.exit.position.x);
   const offsetZ = Math.abs(camera.position.z - world.exit.position.z);
-  if (offsetX <= trigger.halfWidth && offsetZ <= trigger.halfDepth) complete();
+  const triggerY = world.exit.position.y + trigger.centerHeight;
+  const offsetY = Math.abs(camera.position.y - triggerY);
+  if (
+    offsetX <= trigger.halfWidth
+    && offsetZ <= trigger.halfDepth
+    && offsetY <= trigger.halfHeight
+  ) complete();
 }
 
 renderer.setAnimationLoop(() => {
@@ -186,4 +192,4 @@ renderer.setAnimationLoop(() => {
   renderer.render(scene, camera);
 });
 
-ui.showMessage("SCAN: A rose trail climbs toward the fossil spine.", 5);
+ui.showMessage("SCAN: The high trail descends toward a listening antenna.", 5);

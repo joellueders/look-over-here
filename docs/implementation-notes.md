@@ -2,19 +2,21 @@
 
 ## Scenic Prototype: Rose Canyon Highlands
 
-Version: `v0.6.1`
-Build: `ROSE VISTA`
+- Version: `v0.8.0`
+- Build: `CLOUD VALLEY`
 
-The initial playable browser scaffold uses Vite and Three.js. It is an authored,
-single-player first-person canyon route built to test one systemic story:
+The playable browser scaffold uses Vite and Three.js. It remains an authored,
+single-player first-person route built around one systemic story:
 
-1. See the switchback trail, giant fossil spine, and moving signal from spawn.
-2. Inspect the canyon's landmarks and curiosities.
-3. Find and carry the broken antenna.
-4. Notice the storm following the antenna.
-5. Bring the antenna near the dead weather machine.
-6. Trigger a lightning strike and reveal the lost entrance.
-7. Enter beneath the fossil spine to complete the prototype.
+1. Begin on a high mountain shelf overlooking Rose Canyon.
+2. See a mint valley, layered cloud banks, and a larger mountain beyond the
+   playable route.
+3. Descend the readable pastel trail and discover the side-overlook signal.
+4. Touch the signal to unlock the second airborne jump.
+5. Find and carry the broken antenna, then notice the storm following it.
+6. Bring the antenna near the dead weather machine.
+7. Trigger lightning, climb the final shelves, and enter the hidden mountain
+   door.
 
 ### Run
 
@@ -24,118 +26,133 @@ npm run dev
 ```
 
 Use WASD and the mouse to move and look, Space to jump, F to scan, and E to
-interact. The second airborne jump becomes available after finding the spine
-signal.
+interact. The second airborne jump becomes available after touching the high
+trail signal.
 
-Standard browser gamepads are also supported: left stick moves, right stick
-looks, A/Cross jumps, X/Square interacts, and Y/Triangle scans. B/Circle is
-unassigned because the prototype does not currently have a drop or cancel
-action.
+Standard browser gamepads remain supported: left stick moves, right stick
+looks, A/Cross jumps, X/Square interacts, and Y/Triangle scans.
 
-### Implemented
+### Mountain Start and Scenic Scale
 
-- Chunky low-poly geometry, limited palette, atmospheric fog, and deliberately
-  low renderer resolution.
-- The circular crater shell is now an elongated rose canyon floor with open
-  side walls, longer atmospheric sightlines, distant mesas, ridges, cliffs,
-  arches, and mountains.
-- Canyon sides use stacked tapered six-sided formations, offset caps, and thin
-  strata ledges instead of large rectangular slabs. They remain outside the
-  intended playable route and do not add new collision surfaces.
-- Seven walkable tapered sandstone terraces form a readable switchback from the
-  lower spawn valley to the existing fossil bone steps. Small authored tilts
-  and irregular polygon edges reduce the flat-plank read while retaining broad
-  safe landing areas.
-- The fossil spine remains the major climb route. Its bone platforms, authored
-  height-aware colliders, and radial stuck-prevention behavior are preserved.
-- The high stone perch is a broad tapered rock shelf backed by a layered ridge,
-  framing the canyon, distant forms, moving signal, machine shelf, and entrance
-  route without changing the optional double-jump access.
-- Spawn now faces up the switchback toward the spine and overlook. The drifting
-  spore curiosity circles above that destination instead of hovering over the
-  middle of the trail.
-- The unfogged sky body is smaller and farther to the upper left so the canyon
-  silhouette, trail, and fossil remain the primary start-view composition.
-- Player height follows the authored canyon mesh instead of a flat movement
-  plane, preventing raised terrain from clipping through the camera.
-- Simple authored collision circles block the slime basin, weather machine,
-  fossil segments, and individual watching stones without adding a physics
-  engine.
-- Falling below the world resets the player to the lower canyon landing point.
-- The revealed lost entrance now uses an authored doorway-sized completion
-  volume based on horizontal position, so terrain and camera height cannot
-  shrink the trigger. Entering the opening or using its existing interaction
-  completes the prototype and shows the completion overlay.
-- Lost entrance side posts have lightweight collision blockers while the center
-  remains open for the completion path.
-- Cotton-candy pink fog and sky, plum ground, layered rose rock, warm peach
-  light, and selective cyan/hot-pink accents give Rose Canyon a saturated
-  identity while preserving readable silhouettes.
-- Dominant fossil landmark visible from spawn.
-- A readable run of chunky bone platforms climbs the fossil spine, with
-  height-aware collision on the major vertebrae and walkable step surfaces.
-- An orbiting remembering signal is visible above the spine and unlocks a
-  boolean double jump with the message, "Your boots remember a second jump."
-- The double jump can reach an optional high stone perch beside the top of the
-  spine without changing or gating the lost entrance completion path.
-- Mid- and far-distance mountain ridges, crowned mesas, side cliffs, and
-  half-buried fossil arches give the canyon a scenic horizon beyond its
-  interactive landmarks.
-- A non-interactive cluster of cyan and pink spores drifts in a slow loop near
-  the climbing route, creating an additional moving "look over here"
-  curiosity without changing progression.
-- Blue slime basin and ring of watching stones as secondary curiosities.
-- Broken antenna inspection and one-object carrying.
-- Storm cloud pursuit while carrying the antenna.
-- Dead machine proximity escalation with a visible lightning strike.
-- Revealed lost entrance and completion state.
-- Three-rule scenario data for Rose Canyon Highlands, Weather Is Alive, and
-  Find the Signal.
-- First-connected standard Gamepad API support with deadzoned movement/look
-  sticks, shared jump/double-jump behavior, and interaction/scan routed through
-  the existing keyboard actions.
-- A compact controller mapping reminder appears while a standard gamepad is
-  detected.
-- Horizontal movement now uses stronger deceleration when keyboard and
-  controller movement input return to neutral, removing the long controller
-  glide while retaining brief acceleration smoothing.
-- Fossil and bone-step collision volumes now push the player to their nearest
-  safe edge if the player drops into an existing overlap, preventing the
-  height-gated spine collision from becoming a stuck state.
+- Spawn moved from the canyon floor to a broad elevated mountain shelf.
+- The decorative mountain supporting the opening shelf is lowered beneath the
+  walkable surface so the camera no longer begins inside its lavender and coral
+  volumes. Spawn coordinates, elevation, opening direction, and the first
+  walkable shelf remain unchanged.
+- The opening camera faces across the route toward a much larger layered
+  mountain outside the playable area.
+- Seven broad walkable shelves descend from the mountain start toward the
+  antenna and canyon floor.
+- A non-interactive mint valley floor and powder-blue river ribbon continue
+  beyond the compact playable route, making the opening read downward and
+  outward rather than as a closed arena.
+- Three broad secondary ridge layers use lavender, powder-blue, and blush
+  separation around the single larger hero mountain. Nearby duplicate
+  silhouettes were reduced so the far mountain retains hierarchy.
+- Six enlarged, layered cloud banks frame the great mountain at multiple
+  depths. Two sit lower in the valley while four remain higher in the sky,
+  creating foreground, midground, and far-background separation without
+  crossing the playable trail.
+- A larger sun, longer fog range, and an extended camera far plane support the
+  broader sky composition.
+- The valley, river, distant mountains, and cloud banks are non-interactive
+  backdrop geometry.
+
+### Fossil and Route Changes
+
+- The spinal column, ribs, bone stairs, and their collision proxies were
+  removed because they crossed the previous trail composition and confused the
+  route.
+- The existing double-jump reward now circles a small beige-and-yellow side
+  overlook beside the middle trail shelves, more than eleven world units from
+  spawn. The connected shelf remains reachable with the normal jump and frames
+  the signal as a visible optional discovery instead of a spawn pickup.
+- Double-jump unlock state, interaction range, messaging, and jump behavior are
+  unchanged.
+- The route is now communicated through yellow, beige, and blush stone shelves.
+
+### Hidden Exit
+
+- The lost entrance moved from the nearby canyon floor to an elevated shelf at
+  the far-right end of the route.
+- A lavender ridge and coral shoulder frame and partially tuck away the
+  destination.
+- Five rising shelves beyond the weather machine provide the discovery route.
+- The entrance remains invisible until the machine wakes.
+- The completion volume now checks camera height as well as horizontal
+  position, preventing completion from underneath the elevated entrance.
+- Entrance side-post and nearby ridge collision proxies preserve an open center
+  path while reducing clipping and stuck risks.
+- The exit position, reveal state, completion trigger, and approach collision
+  were not changed in this pass.
+
+### Antenna Readability
+
+- The antenna remains the same interactable and carryable progression object.
+- Its silhouette now uses a black mast and crossbar with three front-facing
+  circular receiver fins outlined in black.
+- Red and blush receiver faces contrast against the mint, beige, and yellow
+  trail surfaces from the expected first approach angle.
+- While carried, the antenna is scaled from `0.55` to `0.32` and positioned
+  farther forward and slightly lower-right, preserving its physical silhouette
+  without covering a large portion of the view.
+- Pickup, carried-object attachment, storm pursuit, and machine proximity
+  behavior are unchanged.
+
+### Pastel Gouache Palette
+
+The world now uses the requested palette with role-based separation:
+
+- Sky and atmosphere: sky blue `#69B9E8`, powder blue `#A9CDEA`
+- Ground and living surfaces: mint `#8DD0A5`, sage `#B7C69B`
+- Canyon and mountain faces: coral `#F27E55`, red `#E63946`
+- Shadow masses: lavender `#8B63B6`
+- Trail and cloud highlights: blush `#F5B7C7`, beige `#DFC8B7`, yellow `#F3E34A`
+- Machines, outlines, and structural contrast: black `#111111`
+
+The palette is intentionally separated by function rather than applied
+uniformly. Route surfaces stay light, terrain masses stay saturated, and
+interactables retain dark outlines and strong accent colors.
+
+### Preserved Systems
+
+- Keyboard/mouse movement and pointer-lock look
+- Standard gamepad movement, look, jump, interact, and scan
+- Jump and unlockable double jump
+- Raycast scan and interaction
+- Antenna pickup/carry
+- Storm pursuit while carrying the antenna
+- Weather-machine proximity escalation and lightning strike
+- Entrance reveal and completion overlay
+- Fall reset and lightweight authored collision
 
 ### Intentionally Not Implemented
 
-Multiplayer, networking, combat, enemies, crafting, survival systems, procedural
-terrain, multiple biomes, save/load, controller remapping, mobile controls, and
-a general inventory.
+Multiplayer, networking, procedural terrain, the three-wheel UI, additional
+biomes, enemies, combat, crafting, survival systems, quest logs, save/load,
+physics-engine integration, and a renderer rewrite.
 
 ### Known Limitations
 
-- Ground and structure collision remain intentionally lightweight and authored
-  for this single canyon route; they are not a general physics system.
-- Structure collision proxies use horizontal circles with simple authored top
-  heights; they do not model exact mesh contours.
-- Fossil platforming uses authored box surfaces and height-aware circular
-  blockers with a simple radial overlap failsafe; edge behavior remains
-  intentionally prototype-simple.
-- The double jump unlock is session-only and is not saved between reloads.
-- Controller support uses the browser's standard mapping and fixed deadzone/look
-  sensitivity constants. There is no remapping, sensitivity UI, vibration, or
-  controller-only start-screen navigation.
-- The authored scenario data is structured for later variation, but Prototype 1
-  does not randomize the terrain or progression chain.
-- The new horizon forms are simple non-interactive backdrop geometry and do not
-  have collision or bespoke terrain blending.
-- Trail terraces and the overlook use the prototype's existing raycast ground
-  handling rather than exact side-wall collision, so their tapered edges remain
-  intentionally simple.
-- The Rose Canyon layout and vista composition received code inspection and
-  build validation only; no browser, screenshot, or gameplay verification was
-  performed.
-- Audio is not included in this scaffold.
+- Collision remains a lightweight combination of raycast walkable surfaces and
+  authored horizontal circles; it does not model exact mesh contours.
+- Mountain shelves are broad prototype surfaces with simple tapered edges.
+- The start mountain, valley floor, river ribbon, distant mountains, clouds,
+  and horizon forms do not have collision because they are scenery outside or
+  beneath the intended route.
+- The double-jump overlook uses the same raycast walkable-surface approach as
+  the main trail and has no separate edge rail or physics collider.
+- The spawn clearance, held-item framing, cloud composition, hidden-exit route,
+  relocated reward, and elevated spawn were checked through code inspection and
+  build validation only. No browser automation, screenshots, or manual gameplay
+  verification were performed for this pass.
+- Controller support still uses fixed mappings, deadzone, and look sensitivity.
+- The double-jump unlock remains session-only.
+- Audio is not included.
 
 ### Recommended Next Task
 
-Run a focused manual playtest of the switchback-to-spine climb, high overlook,
-and unchanged antenna-to-machine-to-entrance path, including attempts to wedge
-the player between the fossil colliders and bone platforms.
+Run one focused manual playtest of the complete mountain-start route: confirm
+the opening reads as an overlook above the cloud valley, the side signal is
+discoverable without being mistaken for a spawn reward, the held antenna stays
+readable, and the full machine-to-hidden-entrance route remains clear.

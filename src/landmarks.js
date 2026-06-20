@@ -16,48 +16,12 @@ function markInspectable(object, name, scanText, interactText = scanText) {
   return object;
 }
 
-export function createFossilSpine() {
+export function createTrailSignal() {
   const group = new THREE.Group();
-  const bone = flatMaterial(0xd8c997);
-  const walkableSurfaces = [];
+  group.position.set(-8.2, 7.15, 9.8);
 
-  for (let i = 0; i < 8; i += 1) {
-    const vertebra = new THREE.Mesh(new THREE.DodecahedronGeometry(1.25, 0), bone);
-    vertebra.position.set(-13 + i * 3.25, 3.1 + Math.sin(i * 0.7) * 1.1, -25);
-    vertebra.rotation.set(i * 0.18, 0.25, i * 0.4);
-    vertebra.scale.set(1.5, 0.8, 0.75);
-    group.add(vertebra);
-
-    const rib = new THREE.Mesh(new THREE.TorusGeometry(3.2, 0.34, 5, 8, Math.PI), bone);
-    rib.position.copy(vertebra.position);
-    rib.position.y -= 0.2;
-    rib.rotation.set(Math.PI / 2, 0, Math.PI / 2);
-    group.add(rib);
-  }
-
-  for (let i = 0; i < 7; i += 1) {
-    const step = new THREE.Mesh(new THREE.BoxGeometry(2.5, 0.45, 2.2), bone);
-    step.position.set(-11.5 + i * 3.1, 0.85 + i * 0.78, -21.8 - i * 0.5);
-    step.rotation.y = (i % 2 ? -1 : 1) * 0.12;
-    step.userData.walkableSurface = true;
-    walkableSurfaces.push(step);
-    group.add(step);
-  }
-
-  group.userData.walkableSurfaces = walkableSurfaces;
-  return markInspectable(
-    group,
-    "Giant Fossil Spine",
-    "SCAN: No matching skeleton. Smaller bones form a path toward a signal above.",
-  );
-}
-
-export function createSpineSignal() {
-  const group = new THREE.Group();
-  group.position.set(7.2, 8.1, -25);
-
-  const glow = flatMaterial(0xffdf73, 0x9b5f1c);
-  const dark = flatMaterial(0x28202f);
+  const glow = flatMaterial(0xf3e34a, 0x9b5f1c);
+  const dark = flatMaterial(0x111111);
   const core = new THREE.Mesh(new THREE.OctahedronGeometry(0.55, 0), glow);
   core.rotation.z = Math.PI / 4;
   group.add(core);
@@ -75,8 +39,8 @@ export function createSpineSignal() {
   group.userData.signalOrigin = group.position.clone();
   return markInspectable(
     group,
-    "Remembering Signal",
-    "SCAN: It circles the highest bone and repeats the shape of a jumping boot.",
+    "Overlook Signal",
+    "SCAN: It circles a side overlook and repeats the shape of a jumping boot.",
     "Touch the remembering signal",
   );
 }
@@ -144,21 +108,40 @@ export function createWatchingStones() {
 
 export function createAntenna() {
   const group = new THREE.Group();
-  group.position.set(7, 0.65, 8);
+  group.position.set(2.6, 5.72, 9);
 
-  const dark = flatMaterial(0x28202f);
-  const hot = flatMaterial(0xff5ba7, 0x7d183f);
-  const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.16, 2.4, 6), dark);
-  mast.rotation.z = 0.55;
+  const dark = flatMaterial(0x111111);
+  const hot = flatMaterial(0xe63946, 0x7d183f);
+  const pale = flatMaterial(0xf5b7c7);
+  const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.18, 2.7, 6), dark);
+  mast.rotation.z = 0.22;
   group.add(mast);
 
-  const dish = new THREE.Mesh(new THREE.ConeGeometry(0.8, 0.35, 7, 1, true), hot);
-  dish.position.set(-0.65, 0.95, 0);
-  dish.rotation.z = -1.05;
-  group.add(dish);
+  const crossbar = new THREE.Mesh(new THREE.BoxGeometry(2.35, 0.12, 0.12), dark);
+  crossbar.position.set(-0.28, 0.88, 0);
+  crossbar.rotation.z = 0.1;
+  group.add(crossbar);
 
-  const spark = new THREE.PointLight(0xff5ba7, 1.7, 4);
-  spark.position.set(-0.7, 1.1, 0);
+  [
+    [-1.15, 1.08, 0.06, 0.62],
+    [-0.15, 1.42, 0.02, 0.52],
+    [0.78, 0.92, -0.02, 0.48],
+  ].forEach(([x, y, z, radius], index) => {
+    const dish = new THREE.Mesh(new THREE.CircleGeometry(radius, 10), index === 1 ? pale : hot);
+    dish.position.set(x, y, z);
+    group.add(dish);
+
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.075, 5, 10), dark);
+    rim.position.set(x, y, z + 0.025);
+    group.add(rim);
+  });
+
+  const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.55, 0.26, 7), dark);
+  foot.position.y = -1.27;
+  group.add(foot);
+
+  const spark = new THREE.PointLight(0xe63946, 1.7, 5);
+  spark.position.set(-0.15, 1.42, 0.25);
   group.add(spark);
 
   group.userData.isAntenna = true;
@@ -174,8 +157,8 @@ export function createDeadMachine() {
   const group = new THREE.Group();
   group.position.set(5, 0, -17);
 
-  const shell = flatMaterial(0x292735);
-  const inactive = flatMaterial(0x534664);
+  const shell = flatMaterial(0x111111);
+  const inactive = flatMaterial(0x8b63b6);
   const body = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 3, 4.6, 6), shell);
   body.position.y = 2.3;
   body.rotation.y = 0.25;
@@ -204,11 +187,11 @@ export function createDeadMachine() {
 
 export function createExit() {
   const group = new THREE.Group();
-  group.position.set(0, 0, -29);
+  group.position.set(18, 5.15, -28.5);
   group.visible = false;
 
-  const frameMaterial = flatMaterial(0x19131f);
-  const glowMaterial = flatMaterial(0xffdf73, 0x9b5f1c);
+  const frameMaterial = flatMaterial(0x111111);
+  const glowMaterial = flatMaterial(0xf3e34a, 0x9b5f1c);
   const frame = new THREE.Mesh(new THREE.BoxGeometry(7, 5, 1.2), frameMaterial);
   frame.position.y = 2.5;
   group.add(frame);
@@ -222,11 +205,13 @@ export function createExit() {
   group.userData.completionTrigger = {
     halfWidth: 2.5,
     halfDepth: 1.8,
+    centerHeight: 2,
+    halfHeight: 2.5,
   };
   return markInspectable(
     group,
     "Lost Entrance",
-    "SCAN: A stair descends where the fossil's shadow used to end.",
+    "SCAN: A warm stair descends into the mountain behind the lavender ridge.",
     "Enter the lost entrance",
   );
 }

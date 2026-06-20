@@ -3,19 +3,19 @@ import * as THREE from "three";
 function makeCloud() {
   const group = new THREE.Group();
   const material = new THREE.MeshStandardMaterial({
-    color: 0x28243b,
-    emissive: 0x17132a,
+    color: 0x8b63b6,
+    emissive: 0x2d1f3d,
     flatShading: true,
     roughness: 1,
   });
 
   for (let i = 0; i < 7; i += 1) {
-    const puff = new THREE.Mesh(new THREE.IcosahedronGeometry(1.5 + (i % 3) * 0.45, 0), material);
-    puff.position.set((i - 3) * 1.25, Math.sin(i * 2) * 0.55, Math.cos(i) * 1.2);
+    const puff = new THREE.Mesh(new THREE.IcosahedronGeometry(1.9 + (i % 3) * 0.55, 0), material);
+    puff.position.set((i - 3) * 1.55, Math.sin(i * 2) * 0.7, Math.cos(i) * 1.45);
     group.add(puff);
   }
 
-  const glow = new THREE.PointLight(0x9bdcff, 0.4, 13);
+  const glow = new THREE.PointLight(0xa9cdea, 0.5, 15);
   glow.position.y = -1;
   group.add(glow);
   group.position.set(-18, 13, 12);
@@ -27,7 +27,7 @@ export function createStorm(scene) {
   const cloud = makeCloud();
   scene.add(cloud);
 
-  const boltMaterial = new THREE.LineBasicMaterial({ color: 0xe8ffff });
+  const boltMaterial = new THREE.LineBasicMaterial({ color: 0xf3e34a });
   const bolt = new THREE.Line(
     new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]),
     boltMaterial,

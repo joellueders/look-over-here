@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
 
-const WORLD_LIMIT = 32;
+const WORLD_LIMIT = 34;
 const EYE_HEIGHT = 1.7;
 const PLAYER_RADIUS = 0.45;
 const FALL_RESET_Y = -12;
@@ -16,7 +16,7 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
   const controls = new PointerLockControls(camera, domElement);
   const keys = new Set();
   const velocity = new THREE.Vector3();
-  const spawn = new THREE.Vector3(1, EYE_HEIGHT, 18);
+  const spawn = new THREE.Vector3(-12, EYE_HEIGHT + 8.05, 20);
   const groundRaycaster = new THREE.Raycaster();
   const groundRayOrigin = new THREE.Vector3();
   const down = new THREE.Vector3(0, -1, 0);
@@ -26,7 +26,7 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
 
   camera.position.copy(spawn);
   camera.rotation.order = "YXZ";
-  camera.lookAt(-5.5, 4.8, -24);
+  camera.lookAt(5, 12, -62);
 
   function jump() {
     if (!controls.isLocked) return;
@@ -64,7 +64,7 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
     });
   }
 
-  function pushOutOfSpine() {
+  function pushOutOfGeometry() {
     const feetY = camera.position.y - EYE_HEIGHT;
     for (const collider of colliders) {
       if (!collider.unstuck || feetY + STEP_HEIGHT >= collider.top) continue;
@@ -134,7 +134,7 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
     if (!isBlocked(camera.position.x, movedZ, feetY)) camera.position.z = movedZ;
 
     camera.position.y += velocity.y * delta;
-    pushOutOfSpine();
+    pushOutOfGeometry();
 
     if (camera.position.y < FALL_RESET_Y) {
       resetToSpawn();

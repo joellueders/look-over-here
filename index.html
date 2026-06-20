@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#d887b5" />
+    <meta name="theme-color" content="#69b9e8" />
     <title>Look Over Here — Rose Canyon Highlands</title>
     <style>
       :root {
         font-family: "Courier New", monospace;
-        color: #fff4b3;
-        background: #d887b5;
+        color: #f3e34a;
+        background: #69b9e8;
         font-synthesis: none;
       }
 
@@ -18,9 +18,9 @@
       canvas { display: block; image-rendering: pixelated; }
 
       .panel {
-        background: rgba(24, 18, 35, 0.82);
-        border: 2px solid #fff4b3;
-        box-shadow: 5px 5px 0 rgba(32, 18, 45, 0.55);
+        background: rgba(17, 17, 17, 0.82);
+        border: 2px solid #f3e34a;
+        box-shadow: 5px 5px 0 rgba(139, 99, 182, 0.55);
         padding: 10px 12px;
         text-transform: uppercase;
         letter-spacing: 0.08em;
@@ -36,14 +36,14 @@
         line-height: 1.45;
       }
 
-      #objective strong { color: #8ff7ff; }
+      #objective strong { color: #8dd0a5; }
 
       #status {
         position: fixed;
         top: 18px;
         right: 18px;
         pointer-events: none;
-        color: #ff8bd5;
+        color: #f5b7c7;
         font-size: 12px;
       }
 
@@ -68,7 +68,7 @@
         bottom: 22px;
         transform: translateX(-50%);
         color: white;
-        text-shadow: 2px 2px #21172e;
+        text-shadow: 2px 2px #111111;
         pointer-events: none;
         white-space: nowrap;
       }
@@ -99,8 +99,8 @@
       #crosshair::after {
         content: "";
         position: absolute;
-        background: #fff4b3;
-        box-shadow: 1px 1px #21172e;
+        background: #f3e34a;
+        box-shadow: 1px 1px #111111;
       }
 
       #crosshair::before { left: 4px; width: 2px; height: 10px; }
@@ -124,24 +124,24 @@
       }
 
       h1 { margin: 0 0 4px; font-size: clamp(28px, 7vw, 58px); line-height: 0.95; }
-      h2 { color: #8ff7ff; }
-      .build { margin-bottom: 22px; color: #ff8bd5; font-size: 12px; }
+      h2 { color: #8dd0a5; }
+      .build { margin-bottom: 22px; color: #f5b7c7; font-size: 12px; }
       .rules { margin: 18px 0; color: white; line-height: 1.6; }
       .controls { font-size: 13px; line-height: 1.65; }
 
       button {
         margin-top: 14px;
-        border: 2px solid #24162e;
-        background: #fff4b3;
-        color: #24162e;
+        border: 2px solid #111111;
+        background: #f3e34a;
+        color: #111111;
         padding: 11px 18px;
         font: bold 15px "Courier New", monospace;
         text-transform: uppercase;
         cursor: pointer;
-        box-shadow: 4px 4px 0 #ff5ba7;
+        box-shadow: 4px 4px 0 #e63946;
       }
 
-      button:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #ff5ba7; }
+      button:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #e63946; }
       #complete { display: none; background: rgba(10, 9, 18, 0.88); }
       #complete.visible { display: grid; }
     </style>
@@ -161,7 +161,7 @@
     <div id="start">
       <div class="panel">
         <h1>Look Over Here</h1>
-        <div class="build">v0.6.1 · ROSE VISTA</div>
+        <div class="build">v0.8.0 · CLOUD VALLEY</div>
         <div class="rules">
           Rose Canyon Highlands<br />
           Weather Is Alive<br />
@@ -171,7 +171,7 @@
           WASD move · Mouse look · Space jump<br />
           E interact · F scan · Esc release mouse
         </div>
-        <button id="enter">Enter the canyon</button>
+        <button id="enter">Enter the high trail</button>
       </div>
     </div>
 

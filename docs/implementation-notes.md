@@ -2,8 +2,8 @@
 
 ## Campfire Prototype: Forbidden Moon
 
-Version: `v0.4.1`
-Build: `FIRM FOOTING`
+Version: `v0.5.0`
+Build: `CANDY HORIZON`
 
 The initial playable browser scaffold uses Vite and Three.js. It is an authored,
 single-player first-person crater built to test one systemic story:
@@ -48,9 +48,9 @@ action.
   completes the prototype and shows the completion overlay.
 - Lost entrance side posts have lightweight collision blockers while the center
   remains open for the completion path.
-- Stronger fog, shorter draw distance, coarser crater geometry, and a narrower
-  black-rock/pale-fog/pink-shadow palette push the scene toward the Forbidden
-  Moon N64 direction.
+- Cotton-candy pink fog and sky, plum ground, layered violet rock, warm peach
+  light, and selective cyan/hot-pink accents give the Forbidden Moon a more
+  intentional saturated identity while preserving readable silhouettes.
 - Dominant fossil landmark visible from spawn.
 - A readable run of chunky bone platforms climbs the fossil spine, with
   height-aware collision on the major vertebrae and walkable step surfaces.
@@ -58,8 +58,12 @@ action.
   boolean double jump with the message, "Your boots remember a second jump."
 - The double jump can reach an optional high stone perch beside the top of the
   spine without changing or gating the lost entrance completion path.
-- Mid- and far-distance mesas, broken moon towers, and half-buried fossil arches
-  give the crater a stronger silhouette beyond its interactive landmarks.
+- Mid- and far-distance mountain ridges, crowned mesas, side cliffs, and
+  half-buried fossil arches give the crater an Earth-like horizon beyond its
+  interactive landmarks.
+- A non-interactive cluster of cyan and pink spores drifts in a slow loop near
+  the center of the crater, creating an additional moving "look over here"
+  curiosity without changing progression.
 - Blue slime basin and ring of watching stones as secondary curiosities.
 - Broken antenna inspection and one-object carrying.
 - Storm cloud pursuit while carrying the antenna.
@@ -100,10 +104,15 @@ a general inventory.
   controller-only start-screen navigation.
 - The authored scenario data is structured for later variation, but Prototype 1
   does not randomize the terrain or progression chain.
+- The new horizon forms are simple non-interactive backdrop geometry and do not
+  have collision or bespoke terrain blending.
+- Palette and backdrop readability have only received code inspection and build
+  validation in this pass; no screenshot or browser-based visual QA was
+  performed.
 - Audio is not included in this scaffold.
 
 ### Recommended Next Task
 
-Playtest the five-minute path with fresh players and record whether they notice
-the moving spine signal, understand the bone-step route, discover the second
-jump, and use it to reach the optional high perch without verbal instruction.
+Run a focused visual playtest to confirm the layered horizon reads through the
+fog, the drifting spores pull attention without competing with the antenna, and
+the five-minute antenna-to-entrance path remains visually clear.

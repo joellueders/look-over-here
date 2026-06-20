@@ -1,88 +1,182 @@
-# Look Over Here — Prototype Plan
+# Look Over Here — Revised Prototype Plan
 
 ## Prototype Name
 
-# Campfire Prototype: Forbidden Moon
+# Scenic Prototype: Rose Canyon Highlands
 
 ## Purpose
 
-The first prototype should answer one question:
+The next prototype should answer a sharper question:
 
-> Can a tiny generated N64-style world create a “look over here” moment?
+> Can a small scenic low-poly world create a real “look over here” moment through vistas, trails, height, and one strange world rule?
 
-This prototype is not trying to prove the full game.
+The old Forbidden Moon prototype proved that the basic browser/Three.js exploration loop can work.
 
-It is not trying to prove multiplayer, procedural planets, survival systems, or long-term progression.
+The next prototype should prove the real visual/emotional target:
 
-It is trying to prove:
-
-> “Did I see something weird, go toward it, interact, and get surprised?”
+> “We climbed up high, saw something far away, went toward it, and the world did something surprising.”
 
 ## Target Experience
 
-The player starts in a small alien crater valley.
+The player starts in a warm canyon valley.
 
-Within the first few seconds, they should see at least one strange landmark that makes them curious.
+Within the first few seconds, they should see:
 
-The experience should be short, readable, and surprising.
+- a high trail
+- distant mesas or mountains
+- a major landmark
+- a moving curiosity
+- a reason to climb
 
-The player should finish with one small story worth retelling.
+The experience should feel like visiting an impossible national park, not like walking around an empty alien moon crater.
 
-Example:
+## Current Best Wheel Combo
 
-> “I picked up the broken antenna, then the storm started following me. When lightning hit the dead machine, a hidden path opened under the fossil spine.”
+```text
+WHERE?
+Rose Canyon Highlands
+
+WHAT’S WRONG?
+Weather Is Alive
+
+WHY ARE WE HERE?
+Find the Signal
+```
+
+This can preserve the existing antenna/storm/machine/entrance loop while changing the setting and objective framing.
+
+## Player Story Target
+
+A successful 5–10 minute playthrough should produce a story like:
+
+> “I saw a signal moving above the fossil spine, followed the canyon trail upward, found the antenna, and the storm started following me. When lightning hit the machine, the canyon revealed the signal entrance under the spine.”
 
 ## Mode
 
-Start with **single-player first-person exploration**.
+Start with:
 
-Co-op is part of the long-term fantasy, but it should not be required for Prototype 1.
+# Single-player first-person exploration
 
-The design should still support future co-op by emphasizing:
+Co-op is still the long-term fantasy, but Prototype 1 should remain single-player until the exploration loop is strong.
+
+Design spaces for future co-op by emphasizing:
 
 - visible landmarks
-- pings or callouts later
-- shared discoveries
-- simple interaction verbs
-- moments one player would want to show another player
+- high callout points
+- readable routes
+- moving curiosities
+- shared-discovery style moments
+
+## Controls
+
+Support:
+
+- keyboard/mouse
+- basic controller if already implemented
+- first-person movement
+- jump
+- double jump if already implemented
+- interact
+- scan/inspect
+- carry one object
+
+Controller support should feel responsive, not slippery.
 
 ## Visual Direction
 
-Use the direction from `n64-art-direction.md`.
+Use:
 
-Prototype target:
+- `scenic-low-poly-art-direction.md`
+- `world-biomes.md`
 
-- chunky low-poly 3D
-- N64-inspired fog
-- strong silhouettes
-- simple colors
-- readable interactables
-- small toy-scale world
-- one Forbidden Moon biome
+The prototype target is no longer strict N64.
 
-The prototype should look intentional, not realistic.
+Visual target:
+
+- scenic low-poly national park
+- modern draw distance
+- atmospheric depth
+- saturated dreamlike color
+- high trails
+- distant vistas
+- readable silhouettes
+
+N64 lessons may still help with simplicity and readability, but should not force heavy fog walls or tiny spaces.
 
 ## World Scope
 
-The first world should be tiny.
+The first scenic world should remain small but feel larger through composition.
 
 Recommended shape:
 
-- one crater valley
-- one main landmark
+- one canyon valley
+- one high trail or switchback route
+- one major fossil spine / arch landmark
 - two side curiosities
-- one blocked path
-- one tool/object
+- one distant scenic backdrop
+- one moving visual curiosity
+- one carried object
+- one world-rule actor
 - one escalation event
-- one final reveal or exit
+- one final reveal or signal
 
 Expected play length:
 
 - 5–10 minutes
 
-## Player Verbs
+## Required Scenic Beats
 
-Prototype 1 should include only a few verbs.
+### 1. Spawn View
+
+The player should immediately see a beautiful outdoor composition:
+
+- canyon walls
+- distant mesas
+- high trail
+- major landmark
+- moving curiosity
+
+### 2. Trail Invitation
+
+There should be a visible route that says:
+
+> “Go up there.”
+
+This can be a canyon trail, ridge path, fossil spine, or series of platforms.
+
+### 3. High Vista
+
+At least one high point should reveal more of the world.
+
+From this vista, the player should see:
+
+- the signal or goal
+- the route they came from
+- a distant landmark
+- the scale of the canyon
+
+### 4. World Rule Reaction
+
+The world rule should become clear through play.
+
+For the first version:
+
+- the storm follows the carried antenna
+- lightning activates a machine or canyon feature
+- the machine reveals the signal/entrance/path
+
+### 5. Final Reveal
+
+The final reveal should connect to the landscape.
+
+Examples:
+
+- signal under the fossil spine
+- hidden entrance across the canyon
+- light waking on a far arch
+- door opening beneath the ridge the player climbed
+
+## Player Verbs
 
 Required:
 
@@ -90,207 +184,113 @@ Required:
 - look
 - jump
 - interact
-- scan or inspect
-- pick up / carry one object
+- scan/inspect
+- pick up/carry one object
 
-Optional later:
+Good if already implemented:
 
-- ping
-- crouch
-- sprint
-- climb
-- simple boost pad
-- simple tool use
+- double jump
+- climbable spine/platform path
+- controller play
 
-Do not include combat in Prototype 1.
+Not required yet:
 
-## Procedural Scope
-
-Do not start with full procedural terrain.
-
-Start with a small authored test map and proceduralize selected elements.
-
-Procedural elements for Prototype 1:
-
-- choose 1 dominant landmark from a small list
-- choose 2 secondary curiosities from a small list
-- choose or place 1 blocked path
-- choose or place 1 useful object
-- trigger 1 escalation event
-- reveal 1 final discovery
-
-The goal is procedural surprise, not infinite terrain.
-
-## First Rule Set
-
-Use this as the first generated scenario:
-
-**Place:** Forbidden Moon  
-**Problem:** Weather Is Alive  
-**Goal:** Find the Lost Entrance
-
-This gives the prototype a clear theme and a readable systemic rule.
+- glide
+- rocket pack
+- ping system
+- multiplayer
+- inventory
+- combat
 
 ## Content Kit
 
-### Dominant Landmarks
+### Main Landmark Options
 
-Choose one per run:
+For Rose Canyon Highlands:
 
-- giant fossil spine
-- dead robot hand
-- floating rock arch
-- glowing mushroom tower
+- giant fossil spine across a canyon
+- rose stone arch
+- storm machine on a cliff shelf
+- signal light above ridge
+- lost entrance under canyon wall
+- distant mesa tower
 
-### Secondary Curiosities
+### Side Curiosity Options
 
-Choose two per run:
+- teal shadow pool
+- small watching stones
+- wind chimes made of bone
+- sleeping rock creature
+- glowing cactus cluster
+- broken trail sign
+- tiny machine worshipping a rock
 
-- smoking cave
-- tiny scanner station
-- strange egg cluster
-- cracked moon elevator
-- half-buried machine altar
-- blue slime basin
-- ring of watching stones
+### Moving Curiosity Options
 
-### Interactable Object
+- signal moth
+- ribbon-light
+- glowing wind fish
+- crawling fossil light
+- circling storm spark
 
-First object:
+## Procedural Scope
 
-- broken antenna
+Do not build full procedural terrain yet.
 
-Possible behavior:
+Use authored layout with variable slots:
 
-- when carried, the storm follows the player
-- when placed into a dead machine, it attracts lightning
-- lightning activates a bridge, opens a door, or reveals a path
+- palette slots
+- backdrop slots
+- landmark slots
+- curiosity slots
+- objective slot
+- world-rule actor slot
 
-### System Rule
+This supports the generator direction without taking on unstable terrain generation too early.
 
-Core rule:
+## What Not To Build Yet
 
-> The storm follows whoever carries the antenna.
+Do not build:
 
-This should be understandable through feedback:
-
-- storm cloud moves toward player
-- wind/audio increases near player
-- antenna sparks
-- nearby machines flicker
-- lightning strikes after a short warning
-
-### Escalation
-
-When the antenna is brought near the dead machine:
-
-- the storm intensifies
-- lightning hits the machine
-- the landscape changes
-
-Possible results:
-
-- floating stones form a bridge
-- a sealed door opens
-- a fossil spine shifts
-- a hidden cave mouth lights up
-- the lost entrance appears
-
-### Final Discovery
-
-The player finds the lost entrance.
-
-The entrance should feel like it was hiding in plain sight.
-
-Examples:
-
-- under the giant fossil spine
-- inside the dead robot hand
-- behind the floating rock arch
-- below the glowing mushroom tower
-
-The ending can be simple:
-
-- enter the lost entrance
-- reach a vista
-- activate a beacon
-- fade out with a short completion message
+- multiplayer
+- networking
+- procedural terrain
+- multiple full biomes
+- survival systems
+- crafting
+- combat
+- enemies
+- inventory
+- quests
+- save system
+- progression meta
+- large content database
+- AI generation
+- full wheel UI before the scenic prototype feels good
 
 ## Success Criteria
 
 The prototype succeeds if:
 
-- the player sees something interesting within 10 seconds
-- the player understands at least one place they want to go
-- the player can navigate by landmarks
-- the player notices that the world reacts to their actions
-- the storm/antenna rule creates a memorable moment
-- the final reveal feels intentional
-- the experience takes less than 10 minutes
-- the player wants to generate another version
+- the first view makes the player want to explore
+- the player sees a far-away thing and wants to reach it
+- climbing produces a meaningful vista
+- the landscape feels like an impossible national park
+- the moving curiosity creates attention
+- the world rule creates a small story
+- the player finishes with a memorable moment
+- the level no longer reads as empty moon / No Man’s Sky drift
 
-## Failure Signs
+## Failure Criteria
 
-The prototype is failing if:
+The prototype fails if:
 
-- the world feels empty
-- the player does not know where to go
-- the procedural elements feel randomly scattered
-- the storm feels like noise instead of a rule
-- the player misses the escalation
-- the final reveal feels arbitrary
-- the map is too big
-- the art style becomes generic low-poly instead of N64-inspired
-- implementation starts drifting into survival, combat, crafting, or open-world systems
-
-## Do Not Build Yet
-
-Do not include:
-
-- multiplayer
-- online networking
-- procedural terrain
-- crafting
-- survival meters
-- enemies
-- combat
-- inventory systems
-- shops
-- quests
-- dialogue trees
-- character customization
-- multiple biomes
-- saving/loading
-- base building
-- complex physics puzzles
-
-These may be considered later if the prototype proves the core experience.
-
-## Implementation Notes for Later
-
-When this becomes a coding task, the first implementation should be small.
-
-Start with:
-
-1. Basic first-person controller
-2. One small hand-authored test map
-3. N64-style fog and low-poly visual treatment
-4. Randomized landmark selection
-5. One carryable antenna
-6. One storm-following behavior
-7. One machine that reacts to the antenna/storm
-8. One final reveal
-
-The generator should be data-driven as early as practical, but not over-architected.
-
-Prefer simple rules and visible outcomes.
-
-## Guiding Question
-
-For every prototype feature, ask:
-
-> “Will this create a moment where someone would say, ‘look over here’?”
-
-If yes, it belongs in the prototype.
-
-If no, cut it or save it for later.
+- the level feels flat
+- the player cannot tell where to go
+- there is no reason to climb
+- distant views are hidden by fog
+- the world feels like random low-poly props
+- the moving curiosity is too subtle
+- the storm/object interaction feels like a chore
+- visuals are colorful but not scenic
+- the place is weird but not beautiful

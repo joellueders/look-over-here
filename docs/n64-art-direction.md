@@ -232,14 +232,29 @@ Examples:
 
 Use strong biome palettes rather than realistic color.
 
+The Forbidden Moon should commit to a **cotton-candy saturation world built on
+Earth-like geography**. Use familiar terrain silhouettes—mountains, ridgelines,
+mesas, and cliffs—so the horizon reads as a place, then push those forms through
+a saturated stylized palette of pink fog, plum ground, violet rock, warm peach,
+and selective cyan highlights.
+
+Keep the palette limited and the silhouettes chunky. Saturation should create
+identity, not uniform visual noise: calmer plum terrain and fog should frame
+bright moving curiosities and important gameplay objects.
+
+Avoid drifting back toward an empty gray moon or generic No Man's Sky-style
+alien terrain. The scene should feel authored, playful, and immediately
+memorable rather than broad, sparse, or realistic.
+
 Examples:
 
 ### Forbidden Moon
 
-- black rock
-- blue slime
-- pale yellow fog
-- pink sky
+- plum ground
+- violet and berry rock
+- cotton-candy pink fog and sky
+- warm peach horizon light
+- cyan slime and signal accents
 
 ### Rotting Forest
 

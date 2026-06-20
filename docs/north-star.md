@@ -2,21 +2,28 @@
 
 ## One-Sentence Vision
 
-**Look Over Here is a small co-op procedural exploration game where two players give a strange world a few rules, then explore together and discover moments neither of them expected.**
+**Look Over Here is a small co-op exploration game where players spin a strange world machine, visit impossible national parks from another universe, and discover scenic, funny, surprising moments neither of them expected.**
 
 ## Core Fantasy
 
-You and a friend arrive somewhere strange.
+You and a friend arrive somewhere beautiful and wrong.
 
-You gave the world a few instructions.
+The place feels like a national park you could almost visit:
 
-Now you have to walk into it.
+- trails up mountains
+- canyons and ridges
+- waterfalls and forests
+- far-away vistas
+- natural arches and overlooks
+- strange wildlife or moving landmarks
 
-The joy is saying:
+But the world has been bent by impossible rules.
+
+You look across the landscape, see something moving or glowing in the distance, and say:
 
 > “Look over here.”
 
-And then:
+Then later:
 
 > “Wait… did the game mean to do that?”
 
@@ -24,208 +31,206 @@ And then:
 
 Look Over Here should feel:
 
+- breathtaking
 - curious
 - shared
-- eerie
-- funny
+- scenic
+- playful
 - surprising
 - low-pressure
+- outdoorsy
+- a little strange
 - full of visible mysteries
 
-The game should not feel like homework, crafting chores, survival management, or a checklist open world.
+The game should not feel like:
+
+- survival chores
+- crafting homework
+- a checklist open world
+- empty procedural terrain
+- generic alien planet soup
+- a retro graphics tech demo
+- a realistic hiking simulator with no weirdness
 
 ## Player Promise
 
 Every session should create at least one moment worth retelling.
 
-Not necessarily a huge cinematic moment.
+Examples:
 
-A small strange story is enough:
+> “We climbed the ridge and could see the whole valley.”
 
 > “The storm followed you because you were carrying the antenna.”
 
-> “The bridge only appeared when the fake sun went down.”
+> “The bridge only appeared when the clouds covered the canyon.”
 
-> “The animal stole the key and accidentally opened the cave.”
+> “The glowing animal led us to the wrong door, but that opened the right cave.”
 
-> “We found the exit inside the thing we thought was scenery.”
+> “We reached the top of the fossil spine and saw the real objective miles away.”
+
+A small strange story is enough.
+
+## The Real Game Feeling
+
+The game is about view-driven exploration.
+
+The player should repeatedly think:
+
+> “Let’s climb up there so we can see what’s over there.”
+
+The best moments should come from:
+
+1. seeing something far away,
+2. traveling toward it,
+3. discovering the route is stranger than expected,
+4. reaching a high place,
+5. seeing even more of the world.
 
 ## Core Loop
 
-**Give the world rules**  
-→ **Arrive somewhere strange**  
-→ **Spot mysteries**  
-→ **Explore together**  
-→ **Touch, scan, carry, climb, activate, disturb**  
-→ **The systems react**  
-→ **A path opens or the situation escalates**  
-→ **Find the goal, secret, or exit**  
+**Spin the world machine**  
+→ **Arrive somewhere scenic and strange**  
+→ **Spot a distant landmark or moving curiosity**  
+→ **Follow trails, ridges, rivers, roots, or ruins**  
+→ **Climb high enough to understand the place**  
+→ **Touch, scan, carry, jump, activate, disturb**  
+→ **The world rule reacts**  
+→ **A route opens, changes, or reveals itself**  
+→ **Reach the goal, signal, entrance, or vista**  
 → **Leave with a story**
 
-## The Three-Rule Generator
+## Three-Wheel Generator
 
-Each run begins with a small set of instructions.
+Each run begins by spinning three world wheels:
 
-Recommended structure:
+1. **WHERE?** — What impossible national park are we visiting?
+2. **WHAT’S WRONG?** — What strange rule shapes this place?
+3. **WHY ARE WE HERE?** — What are we trying to find, reach, wake, or prove?
 
-1. **Place** — Where are we?
-2. **Problem** — What is wrong here?
-3. **Goal** — What are we trying to find?
+Example combinations:
 
-Examples:
+- **Rose Canyon Highlands + Weather Is Alive + Find the Signal**
+- **Cloudberry Peaks + Gravity Is Forgetful + Touch the Highest Light**
+- **Giant’s Garden Preserve + Plants React When Watched + Open the Singing Door**
+- **Mint River Basin + Water Remembers + Wake the Signal**
+- **Glass Mountain Park + Reflections Lie + Find the Lost Entrance**
 
-- **Forbidden Moon + Weather Is Alive + Find the Lost Entrance**
-- **Rotting Forest + Animals Build Traps + Wake the Signal**
-- **Dead Arcade + Gravity Is Wrong + Recover the Broken Key**
-- **Polygon Desert + Machines Are Religious + Reach the Thing Under the Mountain**
-
-The rules should be simple enough to understand, but rich enough to combine in surprising ways.
+The rules should be simple enough to understand and rich enough to surprise.
 
 ## Design Pillars
 
 ### 1. Shared Discovery First
 
-The most important co-op verb is not shooting, crafting, or optimizing.
+Everything should create moments players want to point out to each other.
 
-It is:
+The game should support:
 
-> “Come here.”
-
-Players should constantly want to show each other things.
-
-### 2. Small Dense Worlds Beat Huge Empty Ones
-
-Look Over Here should not chase infinite scale.
-
-A good generated world is small enough to understand and weird enough to surprise you.
-
-Every generated world needs visible mysteries within the first few seconds.
-
-### 3. The World Should Feel Authored, Not Random
-
-The generator should not scatter noise.
-
-It should combine authored ingredients in ways that create apparent intention:
-
+- callouts
 - landmarks
-- routes
-- gates
-- creatures
-- tools
-- hazards
-- jokes
-- secrets
-- escalations
+- vistas
+- moving curiosities
+- readable routes
+- “come look at this” moments
 
-The player should think:
+### 2. Scenic Parks, Not Empty Planets
 
-> “Someone designed this.”
+Worlds should feel like memorable outdoor places.
 
-Even when the exact combination was procedural.
+They need:
 
-### 4. Systems Create Stories
+- trails
+- overlooks
+- valleys
+- ridgelines
+- mountains
+- rivers
+- forests
+- arches
+- distant landmarks
+- a sense of journey
 
-The best moments should come from rules colliding.
+Avoid smooth empty terrain with scattered props.
 
-Examples:
+### 3. Height Is Reward
 
-- rain wakes mushrooms
-- loud sounds attract giants
-- carrying eggs makes birds follow you
-- lightning powers dead machines
-- shadows reveal hidden doors
-- creatures steal useful objects
-- gravity shifts after towers activate
+Climbing should matter.
 
-The game should prioritize interactions that create stories over systems that only produce stats.
+High places should reveal:
 
-### 5. Wonder Before Combat
+- the objective
+- new landmarks
+- distant routes
+- hidden entrances
+- shortcuts
+- scale
+- beauty
 
-Combat may exist later, but it is not the center.
+### 4. Beauty First, Weirdness Second
 
-The first version should focus on:
+The world should be beautiful enough to make players pause.
 
-- walking
-- looking
-- scanning
-- climbing
-- carrying
-- activating
-- helping
-- escaping
-- discovering
+The weirdness should punctuate the beauty:
 
-Danger is useful when it makes exploration more exciting, not when it turns the game into a shooter.
+- a moving light on a peak
+- a fossil spine across a canyon
+- a waterfall flowing upward
+- a flower that opens when watched
+- a cloud that becomes a bridge
 
-### 6. Readable Weirdness
+### 5. Low-Poly, Modern Vista
 
-The world can be strange, but players should usually understand what is worth investigating.
+Use stylized low-poly forms, but do not artificially limit the world to N64 draw distance or heavy fog.
 
-Good mystery:
+The target is:
 
-> “That tree is glowing and all the birds are facing it.”
+- readable silhouettes
+- simple forms
+- modern draw distance
+- atmospheric depth
+- shader-enhanced scenery
+- saturated dreamlike color
 
-Bad mystery:
+### 6. Systems Create Stories
 
-> “A random invisible trigger opened a door somewhere.”
+The world rule should create memorable interactions.
 
-Surprises need tells, patterns, and aftermath.
+Good rules are visible and physical:
 
-### 7. Tools Are Verbs
+- weather follows carried objects
+- shadows open routes
+- wind moves platforms
+- reflections reveal paths
+- plants react to attention
+- gravity forgets some objects
 
-Upgrades should change what players can do, not just improve numbers.
+Avoid hidden rules that require explanation.
 
-Good tools:
+### 7. Tools Are Verbs, Not Inventory Chores
 
-- bounce boots
-- scanner
-- signal flare
-- grappling seed
-- portable light
-- gravity peg
-- creature bait
-- object tether
+Player abilities should be simple, expressive verbs:
 
-A tool is good if it makes old places feel new.
+- scan
+- carry
+- climb
+- jump
+- double jump
+- glide later
+- activate
+- point/ping later
 
-### 8. Co-op Should Create Stories, Not Chores
+Tools should help players explore and communicate, not manage menus.
 
-Co-op interactions should be simple and expressive:
+### 8. Co-op Stories, Not Co-op Chores
 
-- ping something weird
-- boost a friend up
-- carry two pieces together
-- split briefly and reunite
-- revive
-- distract a creature
-- stand in two places at once
-- vote to leave
+Long-term co-op should create:
 
-Avoid early systems where co-op becomes inventory management, crafting labor, or synchronization pain.
+- “stand over there”
+- “look at that”
+- “bring that here”
+- “did you see what it did?”
+- “I can see the path from up here”
 
-## First Prototype Target
-
-# Campfire Prototype
-
-The first prototype is successful if two players finish and can retell one weird story.
-
-Minimum shape:
-
-- one small generated island or planet chunk
-- two-player exploration eventually, but single-player testing is acceptable first
-- three rule inputs
-- three visible landmarks
-- one blocked path
-- one tool or interaction verb
-- one systemic creature, weather, or machine behavior
-- one escalation event
-- one final discovery or exit
-
-The goal is not to prove the full game.
-
-The goal is to prove:
-
-> “Can this surprise us?”
+Avoid chore splitting, resource hauling, or multiplayer complexity before the core exploration works.
 
 ## What This Is Not
 
@@ -234,45 +239,17 @@ Look Over Here is not:
 - Minecraft
 - No Man’s Sky
 - a survival crafting game
+- a shooter-first game
+- a realistic hiking simulator
+- a retro N64 graphics exercise
 - a full open-world RPG
-- a shooter-first co-op game
-- a content checklist game
-- Killbox with an overworld
 - a procedural terrain tech demo
-- an AI-generated slop world
+- a Killbox overworld
 
-It is a compact procedural adventure machine for shared discovery.
+## Current Product Boundary
 
-## Product Boundary
+This is a separate project from Killbox.
 
-Look Over Here should remain separate from Killbox for now.
+Killbox is about readable chaos, combat systems, mutagens, and tactical moment-to-moment decisions.
 
-Killbox is pressure, combat, upgrades, waves, towers, expeditions, extraction, and readable chaos.
-
-Look Over Here is curiosity, co-op wonder, procedural situations, landmarks, secrets, and stories.
-
-The games may share design taste, but they should not share systems yet.
-
-## Success Criteria
-
-A session is successful when:
-
-- both players understand where they are trying to go
-- both players notice multiple things they want to investigate
-- the world reacts to player behavior
-- at least one surprise feels intentional
-- the players talk to each other naturally
-- the players leave with a story
-- the map feels small but not empty
-- the procedural rules are visible in the result
-- the experience feels discovered, not handcrafted
-
-## Guiding Question
-
-Whenever adding a feature, ask:
-
-> “Will this make one player say, ‘look over here’?”
-
-If yes, consider it.
-
-If no, cut it or save it for later.
+Look Over Here is about scenic exploration, shared discovery, vistas, strange places, and emergent outdoor stories.

@@ -26,18 +26,18 @@ function createCraterGround() {
 
   geometry.computeVertexNormals();
   geometry.rotateX(-Math.PI / 2);
-  return new THREE.Mesh(geometry, material(0x25202a));
+  return new THREE.Mesh(geometry, material(0x6a3b68));
 }
 
 function createCraterRim(scene) {
-  const rockMaterial = material(0x1d1922);
+  const rockMaterials = [material(0x43254f), material(0x56305d), material(0x34203f)];
 
   for (let i = 0; i < 30; i += 1) {
     const angle = (i / 30) * Math.PI * 2;
     const radius = 36 + Math.sin(i * 4.2) * 2.5;
     const rock = new THREE.Mesh(
       new THREE.ConeGeometry(2.8 + (i % 3), 8 + (i % 5), 5),
-      rockMaterial,
+      rockMaterials[i % rockMaterials.length],
     );
     rock.position.set(Math.cos(angle) * radius, 2.5, Math.sin(angle) * radius);
     rock.rotation.set(Math.sin(i) * 0.15, angle, Math.cos(i * 0.7) * 0.13);
@@ -46,10 +46,13 @@ function createCraterRim(scene) {
 }
 
 function createFloatingRocks(scene) {
-  const rockMaterial = material(0x342b3a);
+  const rockMaterials = [material(0x754879), material(0x4c315d)];
 
   for (let i = 0; i < 8; i += 1) {
-    const rock = new THREE.Mesh(new THREE.OctahedronGeometry(1.1 + (i % 3) * 0.5, 0), rockMaterial);
+    const rock = new THREE.Mesh(
+      new THREE.OctahedronGeometry(1.1 + (i % 3) * 0.5, 0),
+      rockMaterials[i % rockMaterials.length],
+    );
     rock.position.set(-24 + i * 7, 8 + (i % 4) * 2.2, -18 - (i % 2) * 8);
     rock.rotation.set(i, i * 0.4, i * 0.7);
     rock.userData.floatPhase = i * 0.8;
@@ -60,31 +63,65 @@ function createFloatingRocks(scene) {
 function createMoon(scene) {
   const moon = new THREE.Mesh(
     new THREE.IcosahedronGeometry(9, 0),
-    new THREE.MeshBasicMaterial({ color: 0xd9b26f, fog: false }),
+    new THREE.MeshBasicMaterial({ color: 0xffd37f, fog: false }),
   );
   moon.position.set(-18, 22, -35);
   scene.add(moon);
 }
 
 function createDistantLandmarks(scene) {
-  const silhouette = material(0x17141c);
-  const fadedBone = material(0x746b55);
+  const farSilhouette = material(0x59345f);
+  const middleSilhouette = material(0x713f72);
+  const cliffFace = material(0x8e526f);
+  const fadedBone = material(0xd7a58f);
 
   [
-    [-31, -30, 7, 19],
-    [28, -34, 9, 24],
-    [37, 4, 6, 17],
+    [-32, -32, 9, 17],
+    [29, -35, 11, 21],
+    [39, 3, 8, 16],
   ].forEach(([x, z, width, height], index) => {
-    const mesa = new THREE.Mesh(new THREE.CylinderGeometry(width * 0.55, width, height, 5), silhouette);
+    const mesa = new THREE.Mesh(
+      new THREE.CylinderGeometry(width * 0.62, width, height, 5),
+      index === 2 ? middleSilhouette : farSilhouette,
+    );
     mesa.position.set(x, height * 0.42 - 1, z);
     mesa.rotation.y = index * 0.7;
     scene.add(mesa);
 
-    const brokenTower = new THREE.Mesh(new THREE.BoxGeometry(1.8, height * 0.75, 1.8), silhouette);
-    brokenTower.position.set(x + width * 0.45, height * 0.7, z - 1);
-    brokenTower.rotation.z = (index - 1) * 0.08;
-    scene.add(brokenTower);
+    const crown = new THREE.Mesh(
+      new THREE.BoxGeometry(width * 0.82, 2.2, width * 0.56),
+      index === 2 ? middleSilhouette : farSilhouette,
+    );
+    crown.position.set(x, height * 0.82 - 1, z);
+    crown.rotation.y = mesa.rotation.y;
+    scene.add(crown);
   });
+
+  [
+    [-34, -28, 8, 14],
+    [-24, -35, 10, 18],
+    [-12, -39, 9, 15],
+    [1, -41, 12, 19],
+    [15, -39, 9, 14],
+    [25, -34, 10, 17],
+    [34, -27, 8, 13],
+  ].forEach(([x, z, radius, height], index) => {
+    const ridge = new THREE.Mesh(
+      new THREE.ConeGeometry(radius, height, 5),
+      index % 2 ? farSilhouette : middleSilhouette,
+    );
+    ridge.position.set(x, height * 0.42 - 2, z);
+    ridge.rotation.y = index * 0.73;
+    ridge.scale.z = 0.58;
+    scene.add(ridge);
+  });
+
+  for (const side of [-1, 1]) {
+    const cliff = new THREE.Mesh(new THREE.BoxGeometry(13, 9, 4), cliffFace);
+    cliff.position.set(side * 31, 2.4, 15);
+    cliff.rotation.set(0, side * 0.18, side * 0.06);
+    scene.add(cliff);
+  }
 
   for (const x of [-29, -23, 23]) {
     const arch = new THREE.Mesh(new THREE.TorusGeometry(4.4, 0.55, 5, 8, Math.PI), fadedBone);
@@ -94,8 +131,31 @@ function createDistantLandmarks(scene) {
   }
 }
 
+function createDriftingSporeCluster(scene) {
+  const cluster = new THREE.Group();
+  const hot = material(0xff74c8, 0x8f245f);
+  const cool = material(0x72f2e5, 0x1d6f75);
+
+  for (let i = 0; i < 7; i += 1) {
+    const spore = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(0.28 + (i % 3) * 0.12, 0),
+      i % 2 ? hot : cool,
+    );
+    spore.position.set(
+      Math.cos(i * 2.3) * (0.75 + (i % 2) * 0.35),
+      Math.sin(i * 1.7) * 0.65,
+      Math.sin(i * 2.3) * (0.75 + (i % 2) * 0.35),
+    );
+    cluster.add(spore);
+  }
+
+  cluster.position.set(-8, 6.4, -9);
+  cluster.userData.curiosityOrigin = cluster.position.clone();
+  scene.add(cluster);
+}
+
 function createVistaPerch(scene) {
-  const perch = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.65, 3.2), material(0x342b3a));
+  const perch = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.65, 3.2), material(0x754879));
   perch.position.set(12.3, 7.7, -25.8);
   perch.rotation.y = -0.18;
   perch.userData.walkableSurface = true;
@@ -104,11 +164,11 @@ function createVistaPerch(scene) {
 }
 
 export function createWorld(scene) {
-  scene.background = new THREE.Color(0xb99a72);
-  scene.fog = new THREE.Fog(0xb99a72, 10, 48);
+  scene.background = new THREE.Color(0xd887b5);
+  scene.fog = new THREE.Fog(0xd887b5, 11, 52);
 
-  scene.add(new THREE.HemisphereLight(0xe8cf98, 0x211c2b, 1.55));
-  const moonLight = new THREE.DirectionalLight(0xffdda0, 2.1);
+  scene.add(new THREE.HemisphereLight(0xffd3df, 0x362046, 1.7));
+  const moonLight = new THREE.DirectionalLight(0xffe29a, 2.15);
   moonLight.position.set(-12, 28, 10);
   scene.add(moonLight);
 
@@ -118,6 +178,7 @@ export function createWorld(scene) {
   createFloatingRocks(scene);
   createMoon(scene);
   createDistantLandmarks(scene);
+  createDriftingSporeCluster(scene);
   const vistaPerch = createVistaPerch(scene);
 
   const objects = {
@@ -177,6 +238,15 @@ export function animateWorld(scene, elapsed) {
         origin.z + Math.sin(elapsed * 1.4) * 1.15,
       );
       object.rotation.y = elapsed * 1.8;
+    }
+    if (object.userData.curiosityOrigin) {
+      const origin = object.userData.curiosityOrigin;
+      object.position.set(
+        origin.x + Math.sin(elapsed * 0.52) * 3.2,
+        origin.y + Math.sin(elapsed * 1.7) * 0.7,
+        origin.z + Math.cos(elapsed * 0.52) * 1.8,
+      );
+      object.rotation.y = elapsed * 0.8;
     }
   });
 }

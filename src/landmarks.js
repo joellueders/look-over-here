@@ -19,6 +19,7 @@ function markInspectable(object, name, scanText, interactText = scanText) {
 export function createFossilSpine() {
   const group = new THREE.Group();
   const bone = flatMaterial(0xd8c997);
+  const walkableSurfaces = [];
 
   for (let i = 0; i < 8; i += 1) {
     const vertebra = new THREE.Mesh(new THREE.DodecahedronGeometry(1.25, 0), bone);
@@ -34,10 +35,49 @@ export function createFossilSpine() {
     group.add(rib);
   }
 
+  for (let i = 0; i < 7; i += 1) {
+    const step = new THREE.Mesh(new THREE.BoxGeometry(2.5, 0.45, 2.2), bone);
+    step.position.set(-11.5 + i * 3.1, 0.85 + i * 0.78, -21.8 - i * 0.5);
+    step.rotation.y = (i % 2 ? -1 : 1) * 0.12;
+    step.userData.walkableSurface = true;
+    walkableSurfaces.push(step);
+    group.add(step);
+  }
+
+  group.userData.walkableSurfaces = walkableSurfaces;
   return markInspectable(
     group,
     "Giant Fossil Spine",
-    "SCAN: No matching skeleton. The bones curve around a sealed hollow.",
+    "SCAN: No matching skeleton. Smaller bones form a path toward a signal above.",
+  );
+}
+
+export function createSpineSignal() {
+  const group = new THREE.Group();
+  group.position.set(7.2, 8.1, -25);
+
+  const glow = flatMaterial(0xffdf73, 0x9b5f1c);
+  const dark = flatMaterial(0x28202f);
+  const core = new THREE.Mesh(new THREE.OctahedronGeometry(0.55, 0), glow);
+  core.rotation.z = Math.PI / 4;
+  group.add(core);
+
+  for (let i = 0; i < 3; i += 1) {
+    const fin = new THREE.Mesh(new THREE.ConeGeometry(0.18, 1.2, 4), dark);
+    const angle = (i / 3) * Math.PI * 2;
+    fin.position.set(Math.cos(angle) * 0.75, -0.15, Math.sin(angle) * 0.75);
+    fin.rotation.z = Math.PI / 2;
+    fin.rotation.y = -angle;
+    group.add(fin);
+  }
+
+  group.userData.isSpineReward = true;
+  group.userData.signalOrigin = group.position.clone();
+  return markInspectable(
+    group,
+    "Remembering Signal",
+    "SCAN: It circles the highest bone and repeats the shape of a jumping boot.",
+    "Touch the remembering signal",
   );
 }
 
@@ -179,6 +219,10 @@ export function createExit() {
 
   group.userData.isExit = true;
   group.userData.glow = opening;
+  group.userData.completionTrigger = {
+    halfWidth: 2.5,
+    halfDepth: 1.8,
+  };
   return markInspectable(
     group,
     "Lost Entrance",

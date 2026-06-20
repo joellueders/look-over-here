@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { createGamepadInput } from "./gamepad.js";
 import { createScenario } from "./generator.js";
 import { createInteraction } from "./interaction.js";
 import { createPlayer } from "./player.js";
@@ -14,12 +15,14 @@ const start = document.querySelector("#start");
 const enterButton = document.querySelector("#enter");
 const completeScreen = document.querySelector("#complete");
 const restartButton = document.querySelector("#restart");
+const controllerHelp = document.querySelector("#controller-help");
 
 const scenario = createScenario();
 const state = {
   carryingAntenna: false,
   machineAwake: false,
   exitRevealed: false,
+  doubleJumpUnlocked: false,
   complete: false,
 };
 
@@ -46,15 +49,17 @@ objective.innerHTML = `
 `;
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(68, window.innerWidth / window.innerHeight, 0.1, 100);
+const camera = new THREE.PerspectiveCamera(68, window.innerWidth / window.innerHeight, 0.1, 58);
 const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "high-performance" });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 app.appendChild(renderer.domElement);
 
 const world = createWorld(scene);
-const player = createPlayer(camera, renderer.domElement);
+const player = createPlayer(camera, renderer.domElement, world.walkableSurfaces, world.colliders, () => {
+  ui.showMessage("The moon spits you back out.", 4);
+});
 scene.add(player.controls.object);
 const storm = createStorm(scene);
 const clock = new THREE.Clock();
@@ -99,13 +104,32 @@ function revealExit() {
 function complete() {
   if (state.complete) return;
   state.complete = true;
+  status.textContent = "Lost entrance: Found";
+  objective.innerHTML = `<strong>Forbidden Moon complete</strong><br />The way below is open.`;
+  ui.setPrompt("");
+  ui.showMessage("ENTRANCE FOUND: The Forbidden Moon opens below you.", 6);
   player.controls.unlock();
   completeScreen.classList.add("visible");
 }
 
+function unlockDoubleJump() {
+  if (state.doubleJumpUnlocked) return;
+  state.doubleJumpUnlocked = true;
+  player.setDoubleJumpUnlocked(true);
+  status.textContent = state.carryingAntenna
+    ? "Carrying: Broken Antenna · Boots: Remembering"
+    : "Boots: Remembering";
+  world.spineSignal.scale.setScalar(1.35);
+  ui.showMessage("Your boots remember a second jump.", 6);
+}
+
 const interaction = createInteraction(camera, scene, state, ui, {
   pickUpAntenna,
+  unlockDoubleJump,
   complete,
+});
+const gamepadInput = createGamepadInput((detected) => {
+  controllerHelp.classList.toggle("visible", detected);
 });
 
 enterButton.addEventListener("click", () => player.controls.lock());
@@ -132,20 +156,31 @@ function updateMachineTrigger() {
   if (distance < 5.2) revealExit();
 }
 
+function updateExitTrigger() {
+  if (!state.exitRevealed || state.complete) return;
+  const trigger = world.exit.userData.completionTrigger;
+  const offsetX = Math.abs(camera.position.x - world.exit.position.x);
+  const offsetZ = Math.abs(camera.position.z - world.exit.position.z);
+  if (offsetX <= trigger.halfWidth && offsetZ <= trigger.halfDepth) complete();
+}
+
 renderer.setAnimationLoop(() => {
   const delta = Math.min(clock.getDelta(), 0.05);
   const elapsed = clock.elapsedTime;
+  const gamepad = gamepadInput.update();
 
-  player.update(delta);
+  player.update(delta, gamepad);
   interaction.update();
+  if (gamepad.interactPressed) interaction.interact();
+  if (gamepad.scanPressed) interaction.inspect();
   updateMachineTrigger();
+  updateExitTrigger();
   storm.update(delta, elapsed, camera.position, state.carryingAntenna);
   animateWorld(scene, elapsed);
   ui.update(delta);
 
   if (state.exitRevealed) {
     world.exit.userData.glow.material.emissiveIntensity = 1.1 + Math.sin(elapsed * 5) * 0.35;
-    if (camera.position.distanceTo(world.exit.position) < 2.8) complete();
   }
 
   renderer.render(scene, camera);

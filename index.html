@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#d793a8" />
+    <meta name="theme-color" content="#b99a72" />
     <title>Look Over Here — Forbidden Moon</title>
     <style>
       :root {
         font-family: "Courier New", monospace;
         color: #fff4b3;
-        background: #d793a8;
+        background: #b99a72;
         font-synthesis: none;
       }
 
@@ -72,6 +72,18 @@
         pointer-events: none;
         white-space: nowrap;
       }
+
+      #controller-help {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        display: none;
+        pointer-events: none;
+        font-size: 11px;
+        line-height: 1.45;
+      }
+
+      #controller-help.visible { display: block; }
 
       #crosshair {
         position: fixed;
@@ -140,12 +152,16 @@
     <div id="status" class="panel">Hands empty</div>
     <div id="message" class="panel"></div>
     <div id="prompt"></div>
+    <div id="controller-help" class="panel">
+      Controller · Left move · Right look<br />
+      A/Cross jump · X/Square interact · Y/Triangle scan
+    </div>
     <div id="crosshair"></div>
 
     <div id="start">
       <div class="panel">
         <h1>Look Over Here</h1>
-        <div class="build">v0.1.0 · FORBIDDEN MOON</div>
+        <div class="build">v0.4.1 · FIRM FOOTING</div>
         <div class="rules">
           Forbidden Moon<br />
           Weather Is Alive<br />

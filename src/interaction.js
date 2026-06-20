@@ -31,6 +31,8 @@ export function createInteraction(camera, scene, state, ui, callbacks) {
     const data = current.userData.interactable;
     if (current.userData.isAntenna && !state.carryingAntenna) {
       ui.setPrompt(`[E] Pick up ${data.name}  ·  [F] Scan`);
+    } else if (current.userData.isSpineReward && !state.doubleJumpUnlocked) {
+      ui.setPrompt(`[E] Touch ${data.name}  ·  [F] Scan`);
     } else if (current.userData.isExit && state.exitRevealed) {
       ui.setPrompt("[E] Enter the lost entrance  ·  [F] Scan");
     } else {
@@ -49,6 +51,7 @@ export function createInteraction(camera, scene, state, ui, callbacks) {
   function interact() {
     if (!current) return;
     if (current.userData.isAntenna && !state.carryingAntenna) callbacks.pickUpAntenna();
+    if (current.userData.isSpineReward && !state.doubleJumpUnlocked) callbacks.unlockDoubleJump();
     if (current.userData.isExit && state.exitRevealed) callbacks.complete();
   }
 
@@ -58,5 +61,5 @@ export function createInteraction(camera, scene, state, ui, callbacks) {
     if (event.code === "KeyE") interact();
   });
 
-  return { update };
+  return { update, inspect, interact };
 }

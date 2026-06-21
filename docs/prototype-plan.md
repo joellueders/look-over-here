@@ -1,14 +1,41 @@
-# Look Over Here — Revised Prototype Plan
+# Look Over Here — Procedural Scenic Exploration Prototype Plan
+
+> Current prototype direction: generate a large-feeling continuous heightfield
+> world and hide 10 collectible stars across high, low, side, landmark, and
+> hidden exploration spaces. The antenna, storm, machine, and exit loop below
+> is retained as historical design context, not the default objective.
+>
+> Each new seed should feel like changing channels to a different place. The
+> current region set is Alpine Basin, Canyon Maze, Forest Canopy, Lake
+> Highlands, and Cloud Ridge.
+>
+> Every generated world must begin with an awe-spawn moment: a safe overlook,
+> rim, clearing, cliff, or ridge aimed toward a landmark and an explorable
+> foreground-to-horizon composition. Biomes must change traversal grammar, not
+> only palette and props. Wanderbox should feel like generated,
+> national-park-inspired places rather than small playgrounds.
 
 ## Prototype Name
 
-# Scenic Prototype: Rose Canyon Highlands
+# Procedural Scenic Exploration Prototype 1
 
 ## Purpose
 
-The next prototype should answer a sharper question:
+The current prototype should answer a sharper question:
 
-> Can a small scenic low-poly world create a real “look over here” moment through vistas, trails, height, and one strange world rule?
+> Can a generated scenic world create real exploration through vistas, trails,
+> height, landmarks, and 10 hidden stars?
+
+Success requires continuous explorable terrain rather than connected slabs or
+tracks. Seeds should change world identity through distinct heightfield
+topologies, terrain themes, landmark kits, height profiles, cloud composition,
+detail kits, ambient motion, traversal grammar, and star hiding destinations.
+The player should be free to wander across broad ground, descend into basins,
+climb to ridges, or discover an authored upper canopy layer instead of
+following a narrow sky road. The current objective remains finding 10 stars;
+each world should open on a scenic reveal and remain mechanically different
+through canyon corridors, basin climbs, shore routes, canopy layers, or broad
+cloud ridges rather than a theme dressing pass over one route.
 
 The old Forbidden Moon prototype proved that the basic browser/Three.js exploration loop can work.
 

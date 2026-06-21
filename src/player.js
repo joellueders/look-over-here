@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
 
-const WORLD_LIMIT = 34;
 const EYE_HEIGHT = 1.7;
 const PLAYER_RADIUS = 0.45;
 const FALL_RESET_Y = -12;
@@ -11,12 +10,23 @@ const GAMEPAD_LOOK_VERTICAL = 1.8;
 const MAX_LOOK_PITCH = Math.PI / 2 - 0.05;
 const MOVE_ACCELERATION = 10;
 const MOVE_DECELERATION = 34;
+const WALK_SPEED = 7.2;
+const RUN_SPEED = 11.4;
 
-export function createPlayer(camera, domElement, walkableSurfaces, colliders = [], onReset = () => {}) {
+export function createPlayer(
+  camera,
+  domElement,
+  walkableSurfaces,
+  colliders = [],
+  onReset = () => {},
+  options = {},
+) {
   const controls = new PointerLockControls(camera, domElement);
   const keys = new Set();
   const velocity = new THREE.Vector3();
-  const spawn = new THREE.Vector3(-12, EYE_HEIGHT + 8.05, 20);
+  const spawn = options.spawn?.clone() || new THREE.Vector3(-12, EYE_HEIGHT + 8.05, 20);
+  const lookAt = options.lookAt?.clone() || new THREE.Vector3(-10, 29, -165);
+  const worldLimit = options.worldLimit || 46;
   const groundRaycaster = new THREE.Raycaster();
   const groundRayOrigin = new THREE.Vector3();
   const down = new THREE.Vector3(0, -1, 0);
@@ -26,7 +36,7 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
 
   camera.position.copy(spawn);
   camera.rotation.order = "YXZ";
-  camera.lookAt(5, 12, -62);
+  camera.lookAt(lookAt);
 
   function jump() {
     if (!controls.isLocked) return;
@@ -48,12 +58,12 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
   window.addEventListener("blur", () => keys.clear());
 
   function groundHeightAt(x, z, highestAllowed = Infinity) {
-    groundRayOrigin.set(x, 20, z);
+    groundRayOrigin.set(x, 80, z);
     groundRaycaster.set(groundRayOrigin, down);
     const hit = groundRaycaster
       .intersectObjects(walkableSurfaces, false)
       .find((intersection) => intersection.point.y <= highestAllowed);
-    return hit?.point.y ?? 0;
+    return hit?.point.y ?? null;
   }
 
   function isBlocked(x, z, feetY) {
@@ -85,7 +95,7 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
 
   function resetToSpawn() {
     camera.position.copy(spawn);
-    camera.position.y = groundHeightAt(spawn.x, spawn.z) + EYE_HEIGHT;
+    camera.position.y = (groundHeightAt(spawn.x, spawn.z) ?? spawn.y - EYE_HEIGHT) + EYE_HEIGHT;
     velocity.set(0, 0, 0);
     grounded = true;
     airJumpUsed = false;
@@ -99,7 +109,7 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
   function update(delta, gamepad = {}) {
     if (!controls.isLocked) return;
 
-    const speed = 7.2;
+    const speed = keys.has("ShiftLeft") || keys.has("ShiftRight") ? RUN_SPEED : WALK_SPEED;
     const forward = Number(keys.has("KeyW")) - Number(keys.has("KeyS")) - (gamepad.moveY || 0);
     const sideways = Number(keys.has("KeyD")) - Number(keys.has("KeyA")) + (gamepad.moveX || 0);
     const length = Math.hypot(forward, sideways) || 1;
@@ -142,8 +152,9 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
     }
 
     const highestAllowed = camera.position.y - EYE_HEIGHT + STEP_HEIGHT;
-    const groundY = groundHeightAt(camera.position.x, camera.position.z, highestAllowed) + EYE_HEIGHT;
-    if (camera.position.y <= groundY) {
+    const surfaceY = groundHeightAt(camera.position.x, camera.position.z, highestAllowed);
+    const groundY = surfaceY === null ? null : surfaceY + EYE_HEIGHT;
+    if (groundY !== null && camera.position.y <= groundY) {
       camera.position.y = groundY;
       velocity.y = 0;
       grounded = true;
@@ -151,8 +162,8 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
     }
 
     const horizontalDistance = Math.hypot(camera.position.x, camera.position.z);
-    if (horizontalDistance > WORLD_LIMIT) {
-      const scale = WORLD_LIMIT / horizontalDistance;
+    if (horizontalDistance > worldLimit) {
+      const scale = worldLimit / horizontalDistance;
       camera.position.x *= scale;
       camera.position.z *= scale;
     }

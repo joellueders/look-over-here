@@ -1,5 +1,11 @@
 # Look Over Here — N64 Art Direction
 
+> Legacy reference only.
+>
+> The current source of truth is `docs/scenic-low-poly-art-direction.md` and `docs/n64-art-reference.md`.
+>
+> If this document conflicts with scenic-low-poly direction, scenic-low-poly wins.
+
 ## Core Visual Target
 
 **A lost N64 exploration game from an alternate timeline: chunky, foggy, readable, strange, funny, and full of big silhouettes.**

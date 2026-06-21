@@ -16,12 +16,14 @@ Prototype 1 is a browser-based Three.js first-person exploration prototype.
 
 Current focus:
 
-- N64-style Forbidden Moon
+- expedition gouache scenic adventure
+- scenic low-poly landscapes with modern draw distance
+- N64 as a readability reference only
 - first-person exploration
 - readable landmarks
-- antenna → storm → machine → entrance progression
-- simple interaction
-- simple completion
+- seeded heightfield terrain generation
+- 10 hidden collectible stars
+- touch collection and simple completion
 - stable collision and player trust
 
 Do not expand into the full game unless explicitly instructed.
@@ -131,13 +133,14 @@ Do not add:
 
 Preserve the intended visual direction:
 
-- N64-inspired
+- expedition gouache scenic adventure
 - chunky low-poly
-- foggy
+- scenic composition first
 - readable silhouettes
 - limited palette
 - weird but understandable
-- Forbidden Moon first
+- N64-inspired only as a readability reference
+- strong landscape composition over prop clutter
 
 Avoid drifting toward:
 
@@ -154,14 +157,13 @@ Default test:
 npm run build
 ```
 
-When interaction behavior changes, also manually verify or describe how to verify:
+When objective behavior changes, also manually verify or describe how to verify:
 
 - movement works
-- antenna pickup works
-- storm follows antenna
-- machine escalation works
-- entrance reveal works
-- completion works
+- generated routes remain connected
+- stars collect and update the HUD
+- all 10 stars trigger completion
+- a new seed creates a new world
 
 Do not perform extended browser/screenshot testing unless explicitly requested.
 

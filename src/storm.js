@@ -18,7 +18,7 @@ function makeCloud() {
   const glow = new THREE.PointLight(0xa9cdea, 0.5, 15);
   glow.position.y = -1;
   group.add(glow);
-  group.position.set(-18, 13, 12);
+  group.position.set(56, 18, -26);
   group.userData.glow = glow;
   return group;
 }
@@ -63,7 +63,7 @@ export function createStorm(scene) {
   function update(delta, elapsed, playerPosition, carryingAntenna) {
     const target = carryingAntenna
       ? playerPosition.clone().add(new THREE.Vector3(0, 10, 0))
-      : new THREE.Vector3(-18, 13, 12);
+      : new THREE.Vector3(56, 18, -26);
     cloud.position.lerp(target, 1 - Math.exp(-delta * (carryingAntenna ? 0.72 : 0.18)));
     cloud.position.y += Math.sin(elapsed * 2) * 0.006;
     cloud.rotation.y += delta * 0.16;

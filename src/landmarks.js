@@ -18,7 +18,7 @@ function markInspectable(object, name, scanText, interactText = scanText) {
 
 export function createTrailSignal() {
   const group = new THREE.Group();
-  group.position.set(-8.2, 7.15, 9.8);
+  group.position.set(-20, 8.2, -4.8);
 
   const glow = flatMaterial(0xf3e34a, 0x9b5f1c);
   const dark = flatMaterial(0x111111);
@@ -47,7 +47,7 @@ export function createTrailSignal() {
 
 export function createSlimeBasin() {
   const group = new THREE.Group();
-  group.position.set(-18, 0, -5);
+  group.position.set(-27, 0, 22);
 
   const rim = new THREE.Mesh(
     new THREE.CylinderGeometry(5.2, 4.5, 1.2, 9),
@@ -81,7 +81,7 @@ export function createSlimeBasin() {
 
 export function createWatchingStones() {
   const group = new THREE.Group();
-  group.position.set(17, 0, -10);
+  group.position.set(40, 0, -8);
   const stone = flatMaterial(0x3c344f);
   const eye = flatMaterial(0xffdf73, 0x825414);
 
@@ -108,7 +108,7 @@ export function createWatchingStones() {
 
 export function createAntenna() {
   const group = new THREE.Group();
-  group.position.set(2.6, 5.72, 9);
+  group.position.set(31, 6.07, -11);
 
   const dark = flatMaterial(0x111111);
   const hot = flatMaterial(0xe63946, 0x7d183f);
@@ -155,7 +155,7 @@ export function createAntenna() {
 
 export function createDeadMachine() {
   const group = new THREE.Group();
-  group.position.set(5, 0, -17);
+  group.position.set(41, 3.8, -19);
 
   const shell = flatMaterial(0x111111);
   const inactive = flatMaterial(0x8b63b6);
@@ -187,7 +187,7 @@ export function createDeadMachine() {
 
 export function createExit() {
   const group = new THREE.Group();
-  group.position.set(18, 5.15, -28.5);
+  group.position.set(34, 6.35, -28.5);
   group.visible = false;
 
   const frameMaterial = flatMaterial(0x111111);

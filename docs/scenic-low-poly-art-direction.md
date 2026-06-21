@@ -2,7 +2,7 @@
 
 ## Core Visual Target
 
-**Look Over Here should look like a stylized low-poly adventure world with modern scenic draw distance: readable trails, tall climbs, beautiful vistas, strange distant landmarks, and saturated dreamlike color.**
+**Look Over Here should look like a playable gouache landscape painting with readable trails, tall climbs, huge views, strange distant landmarks, and saturated dreamlike color.**
 
 The game should feel like visiting impossible national parks from another universe.
 
@@ -20,9 +20,38 @@ It should feel like:
 
 ## Visual Identity
 
+### Current Art Target
+
+**Playable Gouache Landscape Painting.**
+
+Low-poly is an optional construction method, not the visual goal. Use simple 3D
+forms where they help readability, but the visible result should be painterly,
+atmospheric, and scenic—not a display of flat-shaded geometry. The world should
+feel like a gouache landscape painting the player can walk into.
+
+The target composition is:
+
+- foreground overlook
+- valley or cloud sea below
+- one dominant hero mountain
+- layered distant mountain silhouettes
+- huge sky and atmospheric depth
+
+At a squint, the opening view should resolve into four large painted regions:
+foreground ridge, cloud-filled valley, hero mountain, and sky. Prefer broad
+landscape masses, atmospheric overlap, and painterly color blocking over
+separate cones, towers, cloud puffs, pads, or foreground prop clusters.
+
+Cloud seas and hero mountains are composition anchors. They should create scale
+before individual gameplay objects become readable.
+
+Prioritize soft sky gradients, horizon haze, cool distance fading, warm-light
+and cool-shadow separation, and large connected color regions. Avoid raw
+flat-shaded toy-prop scenery even when the underlying geometry is low-poly.
+
 ### The Target
 
-**Low-poly national park dreamscape.**
+**Painted impossible national park dreamscape.**
 
 The world uses recognizable outdoor beauty:
 
@@ -47,6 +76,10 @@ Then bends it through:
 - giant natural landmarks
 - playful alien details
 - simple readable low-poly forms
+- fewer foreground props
+- more negative space for the vista to breathe
+- cloud banks that act as scale and depth forms, not decorative puffs
+- one dominant hero mountain instead of many equal-sized rock towers
 
 ## N64 Is Inspiration, Not Target
 
@@ -67,7 +100,7 @@ But N64 should not dictate:
 - tiny enclosed crater spaces
 - strict retro technical limits
 
-The current direction wants modern scenic payoff.
+The current direction wants scenic payoff first, with N64 only as a readability reference.
 
 ## Visual Pillars
 

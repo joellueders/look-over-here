@@ -1,5 +1,14 @@
 # Prototype Implementation Notes
 
+## Active Baseline
+
+Commit `c699bbd` is the restored good one-level baseline. The procedural
+terrain/star-generator experiment is paused on
+`archive/procedural-generator-experiment` for later reference because the
+authored level created a stronger sense of place and exploration appeal.
+Future procedural work should build from the authored level's successful
+grammar rather than abstract terrain generation.
+
 ## Scenic Prototype: Rose Canyon Highlands
 
 - Version: `v0.8.0`

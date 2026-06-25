@@ -215,3 +215,109 @@ export function createExit() {
     "Enter the lost entrance",
   );
 }
+
+export function createSecret(id, name, scanText, color) {
+  const group = new THREE.Group();
+  const glow = flatMaterial(color, color);
+  const dark = flatMaterial(0x111111);
+
+  const core = new THREE.Mesh(new THREE.DodecahedronGeometry(0.48, 0), glow);
+  core.rotation.set(0.35, 0.2, 0.15);
+  group.add(core);
+
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.76, 0.09, 5, 10), dark);
+  ring.rotation.x = Math.PI / 2;
+  group.add(ring);
+
+  const light = new THREE.PointLight(color, 1.8, 6);
+  group.add(light);
+
+  group.userData.isSecret = true;
+  group.userData.secretId = id;
+  group.userData.floatPhase = id.length;
+  return markInspectable(group, name, scanText, `Collect ${name}`);
+}
+
+export function createRocketPack() {
+  const group = new THREE.Group();
+  const shell = flatMaterial(0x111111);
+  const flame = flatMaterial(0xf3e34a, 0x9b5f1c);
+  const tank = flatMaterial(0x2ed9dd, 0x0a5f72);
+
+  for (const x of [-0.28, 0.28]) {
+    const cylinder = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.2, 0.95, 6), tank);
+    cylinder.position.set(x, 0, 0);
+    group.add(cylinder);
+
+    const nozzle = new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.34, 6), shell);
+    nozzle.position.set(x, -0.62, 0);
+    nozzle.rotation.x = Math.PI;
+    group.add(nozzle);
+
+    const puff = new THREE.Mesh(new THREE.ConeGeometry(0.11, 0.42, 5), flame);
+    puff.position.set(x, -0.95, 0);
+    puff.rotation.x = Math.PI;
+    group.add(puff);
+  }
+
+  const strap = new THREE.Mesh(new THREE.BoxGeometry(0.88, 0.18, 0.12), shell);
+  strap.position.y = 0.15;
+  group.add(strap);
+
+  const light = new THREE.PointLight(0xf3e34a, 1.6, 6);
+  light.position.y = -0.5;
+  group.add(light);
+
+  group.userData.isRocketPack = true;
+  group.userData.floatPhase = 12.5;
+  return markInspectable(
+    group,
+    "Rocket Pack",
+    "SCAN: It coughs syrup-bright fire and wants to climb the impossible parts.",
+    "Take rocket pack",
+  );
+}
+
+export function createHeartGun() {
+  const group = new THREE.Group();
+  const dark = flatMaterial(0x111111);
+  const pink = flatMaterial(0xff69c8, 0x8f245f);
+  const pale = flatMaterial(0xf5b7c7, 0x5c2449);
+
+  const body = new THREE.Mesh(new THREE.BoxGeometry(1.05, 0.42, 0.42), pink);
+  group.add(body);
+
+  const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.16, 0.9, 7), dark);
+  barrel.rotation.z = Math.PI / 2;
+  barrel.position.x = 0.78;
+  group.add(barrel);
+
+  const handle = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.62, 0.28), dark);
+  handle.position.set(-0.18, -0.42, 0);
+  handle.rotation.z = -0.22;
+  group.add(handle);
+
+  for (const x of [-0.16, 0.14]) {
+    const lobe = new THREE.Mesh(new THREE.SphereGeometry(0.2, 7, 5), pale);
+    lobe.position.set(x, 0.18, 0.24);
+    group.add(lobe);
+  }
+
+  const point = new THREE.Mesh(new THREE.ConeGeometry(0.24, 0.36, 5), pale);
+  point.position.set(0, -0.08, 0.24);
+  point.rotation.x = Math.PI;
+  group.add(point);
+
+  const light = new THREE.PointLight(0xff69c8, 1.5, 6);
+  light.position.set(0.25, 0.1, 0.35);
+  group.add(light);
+
+  group.userData.isHeartGun = true;
+  group.userData.floatPhase = 18.5;
+  return markInspectable(
+    group,
+    "Heart Gun",
+    "SCAN: The barrel hums in valentine static. It paints whatever it loves.",
+    "Take heart gun",
+  );
+}

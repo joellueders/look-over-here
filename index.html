@@ -47,6 +47,15 @@
         font-size: 12px;
       }
 
+      #secrets {
+        position: fixed;
+        top: 64px;
+        right: 18px;
+        pointer-events: none;
+        color: #8dd0a5;
+        font-size: 11px;
+      }
+
       #message {
         position: fixed;
         left: 50%;
@@ -150,6 +159,7 @@
     <div id="app"></div>
     <div id="objective" class="panel"></div>
     <div id="status" class="panel">Hands empty</div>
+    <div id="secrets" class="panel">Secrets Found: 0 / 3</div>
     <div id="message" class="panel"></div>
     <div id="prompt"></div>
     <div id="controller-help" class="panel">
@@ -161,15 +171,15 @@
     <div id="start">
       <div class="panel">
         <h1>Look Over Here</h1>
-        <div class="build">v0.8.0 · CLOUD VALLEY</div>
+        <div class="build">v0.10.0 · HYPER GOO</div>
         <div class="rules">
           Rose Canyon Highlands<br />
           Weather Is Alive<br />
           Find the Signal
         </div>
         <div class="controls">
-          WASD move · Mouse look · Space jump<br />
-          E interact · F scan · Esc release mouse
+          WASD move · Mouse look · Space jump / rocket<br />
+          Click heart gun · E interact · F scan · Esc release mouse
         </div>
         <button id="enter">Enter the high trail</button>
       </div>

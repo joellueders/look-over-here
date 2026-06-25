@@ -3,6 +3,9 @@ import {
   createAntenna,
   createDeadMachine,
   createExit,
+  createHeartGun,
+  createRocketPack,
+  createSecret,
   createSlimeBasin,
   createTrailSignal,
   createWatchingStones,
@@ -12,14 +15,14 @@ const material = (color, emissive = 0x000000) =>
   new THREE.MeshStandardMaterial({ color, emissive, flatShading: true, roughness: 0.95 });
 
 function createCanyonGround() {
-  const geometry = new THREE.PlaneGeometry(70, 72, 8, 10);
+  const geometry = new THREE.PlaneGeometry(210, 216, 14, 16);
   const positions = geometry.attributes.position;
 
   for (let i = 0; i < positions.count; i += 1) {
     const x = positions.getX(i);
     const y = positions.getY(i);
     const noise = Math.sin(x * 0.42) * 0.32 + Math.cos(y * 0.37) * 0.26;
-    const canyonShoulder = Math.max(0, Math.abs(x) - 17) * 0.16;
+    const canyonShoulder = Math.max(0, Math.abs(x) - 26) * 0.035;
     const landingRise = Math.max(0, y - 20) * 0.08;
     positions.setZ(i, noise + canyonShoulder + landingRise);
   }
@@ -386,9 +389,299 @@ function createExitApproach(scene) {
   return surfaces;
 }
 
+function createExpansionGates(scene) {
+  const walkableSurfaces = [];
+  const secrets = [];
+  const addWalkable = (mesh) => {
+    mesh.userData.walkableSurface = true;
+    scene.add(mesh);
+    walkableSurfaces.push(mesh);
+    return mesh;
+  };
+
+  const caveRock = material(0x8b63b6);
+  const caveAccent = material(0xf27e55);
+  const caveFloor = addWalkable(new THREE.Mesh(
+    new THREE.CylinderGeometry(3.8, 4.4, 0.5, 7),
+    material(0xdfc8b7),
+  ));
+  caveFloor.position.set(-26.8, 1.9, 17.5);
+  caveFloor.scale.z = 0.72;
+
+  for (const [x, y, z, scale] of [
+    [-29.3, 4.2, 17.5, 1.1],
+    [-26.3, 5.1, 20.1, 1.35],
+    [-24.5, 4.1, 18.8, 1],
+  ]) {
+    const rock = new THREE.Mesh(new THREE.IcosahedronGeometry(2.4, 0), caveRock);
+    rock.position.set(x, y, z);
+    rock.scale.set(scale, scale * 1.35, scale * 0.8);
+    scene.add(rock);
+  }
+
+  const caveArch = new THREE.Mesh(
+    new THREE.TorusGeometry(2.3, 0.45, 5, 8, Math.PI),
+    caveAccent,
+  );
+  caveArch.position.set(-24.7, 3.2, 17.4);
+  caveArch.rotation.y = Math.PI / 2;
+  scene.add(caveArch);
+
+  for (let i = 0; i < 5; i += 1) {
+    const crystal = new THREE.Mesh(
+      new THREE.ConeGeometry(0.28 + (i % 2) * 0.12, 1.2 + (i % 3) * 0.35, 5),
+      material(i % 2 ? 0x2ed9dd : 0xf3e34a, i % 2 ? 0x0a5f72 : 0x705f18),
+    );
+    crystal.position.set(-28.3 + i * 0.75, 2.85, 18.6 + Math.sin(i) * 0.55);
+    scene.add(crystal);
+  }
+
+  const caveSecret = createSecret(
+    "cave-pocket",
+    "Canyon Heart",
+    "SCAN: A warm mineral pulse answers from beneath the starting mountain.",
+    0xf3e34a,
+  );
+  caveSecret.position.set(-27.2, 3.15, 18);
+  scene.add(caveSecret);
+  secrets.push(caveSecret);
+
+  const stairMaterials = [material(0xa9cdea), material(0xf5b7c7), material(0xf3e34a)];
+  for (let i = 0; i < 9; i += 1) {
+    const step = addWalkable(new THREE.Mesh(
+      new THREE.BoxGeometry(2.8, 0.42, 2.3),
+      stairMaterials[i % stairMaterials.length],
+    ));
+    step.position.set(21.5 + i * 0.55, 0.85 + i * 0.46, -13.3 - i * 0.58);
+    step.rotation.y = -0.12;
+  }
+
+  const upperLedge = addWalkable(new THREE.Mesh(
+    new THREE.CylinderGeometry(3.6, 4.2, 0.62, 7),
+    material(0x8dd0a5),
+  ));
+  upperLedge.position.set(26, 4.35, -18);
+  upperLedge.scale.z = 0.72;
+
+  const promiseSpire = new THREE.Mesh(
+    new THREE.ConeGeometry(0.8, 5.5, 5),
+    material(0xe63946, 0x7d183f),
+  );
+  promiseSpire.position.set(27.5, 7.25, -19);
+  promiseSpire.rotation.z = -0.08;
+  scene.add(promiseSpire);
+
+  const ledgeSecret = createSecret(
+    "upper-ledge",
+    "Sky Knot",
+    "SCAN: The knot holds a tiny reflection of the far mountain.",
+    0xf5b7c7,
+  );
+  ledgeSecret.position.set(25.6, 5.25, -17.8);
+  scene.add(ledgeSecret);
+  secrets.push(ledgeSecret);
+
+  const grottoFloor = addWalkable(new THREE.Mesh(
+    new THREE.CylinderGeometry(3.9, 4.5, 0.5, 8),
+    material(0x242334),
+  ));
+  grottoFloor.position.set(-29, 2.2, -5.5);
+  grottoFloor.scale.z = 0.78;
+
+  const grottoWater = new THREE.Mesh(
+    new THREE.CylinderGeometry(3.15, 3.15, 0.14, 10),
+    material(0x2ed9dd, 0x0a5f72),
+  );
+  grottoWater.position.set(-29, 2.53, -5.5);
+  grottoWater.scale.z = 0.78;
+  scene.add(grottoWater);
+
+  const drainArch = new THREE.Mesh(
+    new THREE.TorusGeometry(2.15, 0.42, 5, 8, Math.PI),
+    material(0xf3e34a),
+  );
+  drainArch.position.set(-25.3, 2.75, -5.5);
+  drainArch.rotation.y = Math.PI / 2;
+  scene.add(drainArch);
+
+  for (let i = 0; i < 6; i += 1) {
+    const bubble = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(0.18 + (i % 3) * 0.08, 0),
+      material(0x82fff1, 0x126e78),
+    );
+    bubble.position.set(-30.5 + (i % 3) * 1.2, 2.95 + Math.floor(i / 3) * 0.8, -5.8);
+    bubble.userData.floatPhase = i * 0.7;
+    scene.add(bubble);
+  }
+
+  const grottoSecret = createSecret(
+    "pool-grotto",
+    "Drain Pearl",
+    "SCAN: The pool has been hiding a second, quieter current.",
+    0x2ed9dd,
+  );
+  grottoSecret.position.set(-29.1, 3.35, -5.4);
+  scene.add(grottoSecret);
+  secrets.push(grottoSecret);
+
+  return { walkableSurfaces, secrets };
+}
+
+function createHyperGooAesthetic(scene) {
+  const gooMaterials = [
+    material(0xff4fd8, 0x74195e),
+    material(0x82fff1, 0x126e78),
+    material(0xf3e34a, 0x705f18),
+  ];
+
+  [
+    [-44, 0.28, -24, 8, 4.8, 0.2],
+    [41, 0.36, 2, 7.5, 4.2, -0.28],
+    [-6, 0.42, -48, 9, 5.6, 0.08],
+    [55, 0.48, -46, 6.8, 3.8, 0.42],
+  ].forEach(([x, y, z, width, depth, rotation], index) => {
+    const pool = new THREE.Mesh(
+      new THREE.CylinderGeometry(width * 0.5, width * 0.5, 0.22, 12),
+      gooMaterials[index % gooMaterials.length],
+    );
+    pool.position.set(x, y, z);
+    pool.scale.z = depth / width;
+    pool.rotation.y = rotation;
+    pool.userData.floatPhase = index * 1.7;
+    scene.add(pool);
+
+    const spire = new THREE.Mesh(
+      new THREE.ConeGeometry(0.42, 2.8 + index * 0.35, 5),
+      gooMaterials[(index + 1) % gooMaterials.length],
+    );
+    spire.position.set(x + width * 0.25, y + 1.55, z - depth * 0.15);
+    spire.rotation.z = 0.16;
+    spire.userData.floatPhase = index * 2.2;
+    scene.add(spire);
+  });
+}
+
+function createBigMountainClimb(scene) {
+  const walkableSurfaces = [];
+  const addWalkable = (mesh) => {
+    mesh.userData.walkableSurface = true;
+    scene.add(mesh);
+    walkableSurfaces.push(mesh);
+    return mesh;
+  };
+
+  const mountain = new THREE.Group();
+  const base = new THREE.Mesh(new THREE.ConeGeometry(23, 50, 7), material(0x8b63b6));
+  base.position.y = 20;
+  base.scale.z = 0.72;
+  base.rotation.y = 0.2;
+  mountain.add(base);
+
+  const face = new THREE.Mesh(new THREE.ConeGeometry(17, 38, 6), material(0xf27e55));
+  face.position.set(-6, 17, 5);
+  face.scale.z = 0.58;
+  face.rotation.y = -0.35;
+  mountain.add(face);
+
+  const cap = new THREE.Mesh(new THREE.ConeGeometry(8, 12, 6), material(0xf5b7c7, 0x5c2449));
+  cap.position.set(-1, 43, -1);
+  mountain.add(cap);
+
+  mountain.position.set(55, -1.6, -70);
+  scene.add(mountain);
+
+  const shelfMaterials = [material(0xdfc8b7), material(0x8dd0a5), material(0xf5b7c7)];
+  for (let i = 0; i < 15; i += 1) {
+    const shelf = addWalkable(new THREE.Mesh(
+      new THREE.CylinderGeometry(3.6 - Math.min(i, 8) * 0.08, 4.4, 0.58, 7),
+      shelfMaterials[i % shelfMaterials.length],
+    ));
+    const angle = -0.7 + i * 0.34;
+    shelf.position.set(
+      47 + Math.cos(angle) * (7.8 - i * 0.18),
+      1.2 + i * 1.35,
+      -58 - i * 1.35 + Math.sin(angle) * 5.5,
+    );
+    shelf.scale.z = 0.66;
+    shelf.rotation.y = angle + 0.4;
+  }
+
+  const summit = addWalkable(new THREE.Mesh(
+    new THREE.CylinderGeometry(5.2, 6.4, 0.72, 8),
+    material(0xf3e34a, 0x705f18),
+  ));
+  summit.position.set(52, 22.1, -79);
+  summit.scale.z = 0.72;
+
+  const rocketPack = createRocketPack();
+  rocketPack.position.set(52.5, 23.05, -78.3);
+  rocketPack.rotation.y = -0.45;
+  scene.add(rocketPack);
+
+  const heartGun = createHeartGun();
+  heartGun.position.set(39, 1.55, -36);
+  heartGun.rotation.y = -0.9;
+  scene.add(heartGun);
+
+  return { walkableSurfaces, rocketPack, heartGun };
+}
+
+function createLakeDiveTower(scene) {
+  const walkableSurfaces = [];
+  const addWalkable = (mesh) => {
+    mesh.userData.walkableSurface = true;
+    scene.add(mesh);
+    walkableSurfaces.push(mesh);
+    return mesh;
+  };
+
+  const lake = addWalkable(new THREE.Mesh(
+    new THREE.CylinderGeometry(17, 18, 0.18, 18),
+    material(0x2ed9dd, 0x0a5f72),
+  ));
+  lake.position.set(-58, -0.25, -55);
+  lake.scale.z = 0.68;
+
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(14.7, 0.35, 5, 18), material(0xf5b7c7));
+  rim.position.set(-58, -0.05, -55);
+  rim.scale.z = 0.68;
+  rim.rotation.x = Math.PI / 2;
+  scene.add(rim);
+
+  const towerMat = material(0x111111);
+  const boardMat = material(0xf3e34a, 0x705f18);
+  for (const x of [-48.8, -47.2]) {
+    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.2, 23, 5), towerMat);
+    pole.position.set(x, 11.3, -47);
+    scene.add(pole);
+  }
+
+  for (let i = 0; i < 42; i += 1) {
+    const rung = addWalkable(new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.18, 0.42), boardMat));
+    rung.position.set(-48, 0.9 + i * 0.52, -47);
+  }
+
+  const topDeck = addWalkable(new THREE.Mesh(new THREE.BoxGeometry(5.2, 0.42, 4.4), boardMat));
+  topDeck.position.set(-48, 22.25, -47.6);
+
+  const board = addWalkable(new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.34, 12), material(0xff4fd8, 0x74195e)));
+  board.position.set(-52, 22.45, -53.8);
+  board.rotation.y = -0.18;
+
+  const heartGunSign = new THREE.Mesh(new THREE.TorusGeometry(1.1, 0.16, 5, 10), material(0xff69c8, 0x8f245f));
+  heartGunSign.position.set(39, 2.8, -36);
+  heartGunSign.rotation.x = Math.PI / 2;
+  scene.add(heartGunSign);
+
+  return {
+    walkableSurfaces,
+    lakeBounds: { x: -58, z: -55, radiusX: 15.2, radiusZ: 10.2, surfaceY: -0.1 },
+  };
+}
+
 export function createWorld(scene) {
-  scene.background = new THREE.Color(0x69b9e8);
-  scene.fog = new THREE.Fog(0xa9cdea, 46, 132);
+  scene.background = new THREE.Color(0xff7ce5);
+  scene.fog = new THREE.Fog(0xf5b7ff, 70, 220);
 
   scene.add(new THREE.HemisphereLight(0xa9cdea, 0x8b63b6, 2));
   const sunLight = new THREE.DirectionalLight(0xfff2b8, 2.25);
@@ -408,6 +701,10 @@ export function createWorld(scene) {
   const trailSurfaces = createTrail(scene);
   const signalOverlook = createSignalOverlook(scene);
   const exitApproachSurfaces = createExitApproach(scene);
+  const expansionGates = createExpansionGates(scene);
+  createHyperGooAesthetic(scene);
+  const bigMountain = createBigMountainClimb(scene);
+  const lakeDiveTower = createLakeDiveTower(scene);
 
   const objects = {
     trailSignal: createTrailSignal(),
@@ -437,9 +734,21 @@ export function createWorld(scene) {
     ...trailSurfaces,
     signalOverlook,
     ...exitApproachSurfaces,
+    ...expansionGates.walkableSurfaces,
+    ...bigMountain.walkableSurfaces,
+    ...lakeDiveTower.walkableSurfaces,
   ];
 
-  return { ...objects, ground, colliders, walkableSurfaces };
+  return {
+    ...objects,
+    ground,
+    colliders,
+    walkableSurfaces,
+    secrets: expansionGates.secrets,
+    rocketPack: bigMountain.rocketPack,
+    heartGun: bigMountain.heartGun,
+    lakeBounds: lakeDiveTower.lakeBounds,
+  };
 }
 
 export function animateWorld(scene, elapsed) {

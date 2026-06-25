@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
 
-const WORLD_LIMIT = 34;
+const WORLD_LIMIT = 102;
 const EYE_HEIGHT = 1.7;
 const PLAYER_RADIUS = 0.45;
 const FALL_RESET_Y = -12;
@@ -22,6 +22,7 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
   const down = new THREE.Vector3(0, -1, 0);
   let grounded = true;
   let doubleJumpUnlocked = false;
+  let rocketPackUnlocked = false;
   let airJumpUsed = false;
 
   camera.position.copy(spawn);
@@ -96,6 +97,10 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
     doubleJumpUnlocked = unlocked;
   }
 
+  function setRocketPackUnlocked(unlocked) {
+    rocketPackUnlocked = unlocked;
+  }
+
   function update(delta, gamepad = {}) {
     if (!controls.isLocked) return;
 
@@ -110,6 +115,9 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
     velocity.x = THREE.MathUtils.lerp(velocity.x, (sideways / Math.max(1, length)) * speed, 1 - damping);
     velocity.z = THREE.MathUtils.lerp(velocity.z, (forward / Math.max(1, length)) * speed, 1 - damping);
     velocity.y -= 16 * delta;
+    if (rocketPackUnlocked && keys.has("Space") && !grounded) {
+      velocity.y = Math.min(velocity.y + 26 * delta, 9);
+    }
 
     camera.rotation.y -= (gamepad.lookX || 0) * GAMEPAD_LOOK_HORIZONTAL * delta;
     camera.rotation.x = THREE.MathUtils.clamp(
@@ -158,5 +166,5 @@ export function createPlayer(camera, domElement, walkableSurfaces, colliders = [
     }
   }
 
-  return { controls, update, setDoubleJumpUnlocked, spawn };
+  return { controls, update, setDoubleJumpUnlocked, setRocketPackUnlocked, spawn };
 }

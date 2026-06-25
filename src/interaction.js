@@ -33,6 +33,12 @@ export function createInteraction(camera, scene, state, ui, callbacks) {
       ui.setPrompt(`[E] Pick up ${data.name}  ·  [F] Scan`);
     } else if (current.userData.isSpineReward && !state.doubleJumpUnlocked) {
       ui.setPrompt(`[E] Touch ${data.name}  ·  [F] Scan`);
+    } else if (current.userData.isRocketPack && !state.rocketPackUnlocked) {
+      ui.setPrompt(`[E] Take ${data.name}  ·  [F] Scan`);
+    } else if (current.userData.isHeartGun && !state.heartGunUnlocked) {
+      ui.setPrompt(`[E] Take ${data.name}  ·  [F] Scan`);
+    } else if (current.userData.isSecret && !state.secretsFound.has(current.userData.secretId)) {
+      ui.setPrompt(`[E] Collect ${data.name}  ·  [F] Scan`);
     } else if (current.userData.isExit && state.exitRevealed) {
       ui.setPrompt("[E] Enter the lost entrance  ·  [F] Scan");
     } else {
@@ -52,6 +58,9 @@ export function createInteraction(camera, scene, state, ui, callbacks) {
     if (!current) return;
     if (current.userData.isAntenna && !state.carryingAntenna) callbacks.pickUpAntenna();
     if (current.userData.isSpineReward && !state.doubleJumpUnlocked) callbacks.unlockDoubleJump();
+    if (current.userData.isRocketPack && !state.rocketPackUnlocked) callbacks.unlockRocketPack(current);
+    if (current.userData.isHeartGun && !state.heartGunUnlocked) callbacks.unlockHeartGun(current);
+    if (current.userData.isSecret) callbacks.collectSecret(current);
     if (current.userData.isExit && state.exitRevealed) callbacks.complete();
   }
 
